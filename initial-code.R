@@ -12,3 +12,5 @@ summary(vancouver_trees$diameter)
 table(vancouver_trees$height_range_id)
 
 str(parking_meters)
+
+

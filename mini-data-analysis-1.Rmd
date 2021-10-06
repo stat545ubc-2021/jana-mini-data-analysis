@@ -11,25 +11,45 @@ This file goes through my exploration of different data sets in the `datateachr`
 
 # 1 Choose Favorite Data set
 
-### 1.1 Choose 4 Data sets
+## 1.1 Choose 4 Data sets
 
 ```{r, include = FALSE}
 library(datateachr)
 library(tidyverse)
+library(dplyr)
 ```
 
-From an initial pass through of the description of the data, I am most interested in the following 4 data sets:
+From an initial pass through of the description of the various data set, I am most interested in the following 4 data sets:
 
 1. *apt_buildings*
 2. *building_permits*
 3. *parking_meters*
 4. *vancouver_trees*
 
-### 1.2 Narrowing Down choices
+## 1.2 Exploring Attributes of 4 Datasets
 
-### 1.3 Choose 2 Data sets
+### 1.2.1 *apt_buildings*
+```{r, echo=FALSE}
+str(apt_buildings)
+```
 
-### 1.4 Final Data set
+### 1.2.2 *building_permits*
+```{r, echo=FALSE}
+str(building_permits)
+```
+  
+### 1.2.3 *parking_meters*
+```{r, echo=FALSE}
+str(parking_meters)
+```
+
+### 1.2.4 *vancouver_trees*
+```{r, echo=FALSE}
+str(vancouver_trees)
+```
+## 1.3 Choose 2 Data sets
+
+## 1.4 Final Data set
 
 # 2 Exploring the Data set
 
