@@ -183,10 +183,33 @@ be explored in this data set.
 *vancouver\_trees* is also very interesting because it has exact
 *longitude* and *latitude* values for each tree which can be used for
 interesting geographic visualization. Similar to *apt\_buildings*, it
-has a lot of numerical and categorical variables whose relationships can
-be explored. The date of when the trees were planted were also recorded
-which can be used for time series analysis.
+has a lot of numerical and categorical variables like *diameter* of the
+tree and the *species\_name*. Various relationships can be explored
+using this data set. The date of when the trees were planted were also
+recorded which can be used for time series analysis.
 
 ## 1.4 Final Data set
 
+For the 2 data sets above, a lot of research questions can be formed.
+For example, using the *apt\_buildings* data set, we can ask the
+question *“does the proportion of smoking vs. non-smoking buildings
+change over the years?”*. Using the *vancouver\_trees* data set, we can
+ask *“does the location affect the type of species of tree planted?”*
+
+I am personally more interested in the changes of the apartment
+buildings over the years. I am also interested in exploring relationship
+of various structural components of apartment buildings with each other.
+For example, the number of balconies and if pets are allowed. I am
+excited to see what we can explore with the *apt\_buildings* data set.
+
 # 2 Exploring the Data set
+
+## 2.1/2.2 Using 4 Exercises (and Explanation)
+
+### 2.2.1 Exercise 1:
+
+### 2.2.2 Exercise 2:
+
+### 2.2.3 Exercise 3:
+
+### 2.2.4 Exercise 4:
