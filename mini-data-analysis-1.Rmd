@@ -2,7 +2,7 @@
 title: Mini Data Analysis 1
 author: Jana Osea
 date: October 5, 2021
-output: rmdformats::material
+output: github_document
 ---
 
 # Header
