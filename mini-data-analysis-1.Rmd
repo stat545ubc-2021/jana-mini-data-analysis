@@ -17,6 +17,7 @@ This file goes through my exploration of different data sets in the `datateachr`
 library(datateachr)
 library(tidyverse)
 library(dplyr)
+library(ggplot2)
 ```
 
 From an initial pass through of the description of the various data set, I am most interested in the following 4 data sets:
@@ -68,6 +69,16 @@ I am personally more interested in the changes of the apartment buildings over t
 ## 2.1/2.2 Using 4 Exercises (and Explanation)
 
 ### 2.2.1 Exercise 1:
+
+| Grammar Component     | Specification |
+|-----------------------|---------------|
+| data                  | gapminder     |
+| aesthetic mapping     | year          |
+| geometric object      | bars          |
+| scale                 | linear        |
+| statistical transform | none          |
+| coordinate system     | rectangular   |
+| facetting             | none          |
 ```{r}
 
 ```

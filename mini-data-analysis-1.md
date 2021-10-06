@@ -208,8 +208,20 @@ excited to see what we can explore with the *apt\_buildings* data set.
 
 ### 2.2.1 Exercise 1:
 
+| Grammar Component     | Specification |
+|-----------------------|---------------|
+| data                  | gapminder     |
+| aesthetic mapping     | year          |
+| geometric object      | bars          |
+| scale                 | linear        |
+| statistical transform | none          |
+| coordinate system     | rectangular   |
+| facetting             | none          |
+
 ### 2.2.2 Exercise 2:
 
 ### 2.2.3 Exercise 3:
 
 ### 2.2.4 Exercise 4:
+
+# 3 Research Question
