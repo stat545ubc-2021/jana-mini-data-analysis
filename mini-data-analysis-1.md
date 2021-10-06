@@ -24,9 +24,13 @@ I am most interested in the following 4 data sets:
 3.  *parking\_meters*
 4.  *vancouver\_trees*
 
-## 1.2 Exploring Attributes of 4 Datasets
+## 1.2 Exploring Attributes of the 4 Datasets
 
 ### 1.2.1 *apt\_buildings*
+
+``` r
+str(apt_buildings)
+```
 
     ## tibble [3,455 x 37] (S3: tbl_df/tbl/data.frame)
     ##  $ id                              : num [1:3455] 10359 10360 10361 10362 10363 ...
@@ -69,6 +73,10 @@ I am most interested in the following 4 data sets:
 
 ### 1.2.2 *building\_permits*
 
+``` r
+str(building_permits)
+```
+
     ## spec_tbl_df [20,680 x 14] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
     ##  $ permit_number              : chr [1:20680] "BP-2016-02248" "BU468090" "DB-2016-04450" "DB-2017-00131" ...
     ##  $ issue_date                 : Date[1:20680], format: "2017-02-01" "2017-02-01" ...
@@ -104,6 +112,10 @@ I am most interested in the following 4 data sets:
 
 ### 1.2.3 *parking\_meters*
 
+``` r
+str(parking_meters)
+```
+
     ## tibble [10,032 x 22] (S3: tbl_df/tbl/data.frame)
     ##  $ meter_head    : chr [1:10032] "Twin" "Pay Station" "Twin" "Single" ...
     ##  $ r_mf_9a_6p    : chr [1:10032] "$2.00" "$1.00" "$1.00" "$1.00" ...
@@ -130,6 +142,10 @@ I am most interested in the following 4 data sets:
 
 ### 1.2.4 *vancouver\_trees*
 
+``` r
+str(vancouver_trees)
+```
+
     ## tibble [146,611 x 20] (S3: tbl_df/tbl/data.frame)
     ##  $ tree_id           : num [1:146611] 149556 149563 149579 149590 149604 ...
     ##  $ civic_number      : num [1:146611] 494 450 4994 858 5032 ...
@@ -153,6 +169,23 @@ I am most interested in the following 4 data sets:
     ##  $ latitude          : num [1:146611] 49.2 49.2 49.2 49.2 49.2 ...
 
 ## 1.3 Choose 2 Data sets
+
+I am most interested in the *apt\_buildings* and *vancouver\_trees*. The
+*apt\_buildings* has a lot of numerical variables such as
+*no\_of\_units* and *no\_of\_accessible\_parking\_space*. In addition,
+the categorical variables are easily understandable like *pets\_allowed*
+and *parking\_type*. I do not have to extrapolate their meanings unlike
+the *parking\_meters* data set. This data set also contains time
+variables, *year\_built* and *year\_registered*, which can be used for
+time series analysis. There’s a lot of possible relationships that can
+be explored in this data set.
+
+*vancouver\_trees* is also very interesting because it has exact
+*longitude* and *latitude* values for each tree which can be used for
+interesting geographic visualization. Similar to *apt\_buildings*, it
+has a lot of numerical and categorical variables whose relationships can
+be explored. The date of when the trees were planted were also recorded
+which can be used for time series analysis.
 
 ## 1.4 Final Data set
 

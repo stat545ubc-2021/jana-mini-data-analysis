@@ -26,30 +26,39 @@ From an initial pass through of the description of the various data set, I am mo
 3. *parking_meters*
 4. *vancouver_trees*
 
-## 1.2 Exploring Attributes of 4 Datasets
+## 1.2 Exploring Attributes of the 4 Datasets
 
 ### 1.2.1 *apt_buildings*
-```{r, echo=FALSE}
+```{r}
 str(apt_buildings)
 ```
 
 ### 1.2.2 *building_permits*
-```{r, echo=FALSE}
+```{r}
 str(building_permits)
 ```
   
 ### 1.2.3 *parking_meters*
-```{r, echo=FALSE}
+```{r}
 str(parking_meters)
 ```
 
 ### 1.2.4 *vancouver_trees*
-```{r, echo=FALSE}
+
+```{r}
 str(vancouver_trees)
 ```
+
 ## 1.3 Choose 2 Data sets
 
+I am most interested in the *apt_buildings* and *vancouver_trees*. The *apt_buildings* has a lot of numerical variables such as *no_of_units* and *no_of_accessible_parking_space*. In addition, the categorical variables are easily understandable like *pets_allowed* and *parking_type*. I do not have to extrapolate their meanings unlike the *parking_meters* data set. This data set also contains time variables, *year_built* and *year_registered*, which can be used for time series analysis. There's a lot of possible relationships that can be explored in this data set.
+
+*vancouver_trees* is also very interesting because it has exact *longitude* and *latitude* values for each tree which can be used for interesting geographic visualization. Similar to *apt_buildings*, it has a lot of numerical and categorical variables whose relationships can be explored. The date of when the trees were planted were also recorded which can be used for time series analysis.
+
+
 ## 1.4 Final Data set
+
+
 
 # 2 Exploring the Data set
 
