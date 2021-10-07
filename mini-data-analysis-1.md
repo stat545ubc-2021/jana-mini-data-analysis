@@ -246,11 +246,11 @@ not interested in exploring its effect on the data. Then I remove data
 points with *year\_built* prior to 1910 because the number of units
 built in years prior were close to 0 and therefore negligible. I plot
 the smoking vs non-smoking units by year first as stacked values, then
-as percent values. Using the plot allows us to see the total number of
-units built every year. On the other hand, the second plot allows us to
-see the percent trend of smoking vs non-smoking units built by year. I
-prefer the second plot as we are moreso able to see how the trend
-changes.
+as percent values. Using the first plot allows us to see the total
+number of units built every year. On the other hand, the second plot
+allows us to see the percent trend of smoking vs non-smoking units built
+by year. I prefer the second plot as we are moreso able to see how the
+trend changes.
 
 ``` r
 # Explore the relationship between 2 variables in a plot.
@@ -279,13 +279,13 @@ apt_buildings %>%
 
 ### 2.2.3 Exercise 3:
 
-This exercise is outlined by exercise 6 in the list. I first removed all
+This exercise is outlined by exercise 6 in the list. I first remove all
 data points with a visitor parking type and property type that have `NA`
 values since I am not interested in exploring its effect on the data. I
-also removed the data points with visitor parking type as “UNAVAILABLE”
+also remove the data points with visitor parking type as “UNAVAILABLE”
 because I am also not interested in exploring its effect on the data.
 Finally, I plot the boxplots as grouped by in order of visitor parking
-type and property type. I did it in this specific order because we can
+type and property type. I do it in this specific order because we can
 compare the distribution of the number of units between property types
 of a specific visitor parking type. We can see if a specific property
 type tends to have more units with specific visitor parking type.
