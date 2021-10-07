@@ -58,7 +58,7 @@ apt_buildings %>%
   filter(!visitor_parking == "UNAVAILABLE") %>%
   ggplot(aes(x=visitor_parking,y=no_of_units, fill=property_type)) +
   geom_boxplot(alpha=0.2) + 
-  facet_wrap(~property_type, scale="free")
+  facet_wrap(~visitor_parking, scale="free")
 
 # Make a new tibble with a subset of your data, with variables and observations that you are interested in exploring.
 apt_buildings %>%

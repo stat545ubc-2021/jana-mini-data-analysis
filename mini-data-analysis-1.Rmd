@@ -19,6 +19,7 @@ library(tidyverse)
 library(dplyr)
 library(ggridges)
 library(ggplot2)
+library(kableExtra)
 ```
 
 From an initial pass through of the description of the various data set, I am most interested in the following 4 data sets:
@@ -32,23 +33,23 @@ From an initial pass through of the description of the various data set, I am mo
 
 ### 1.2.1 *apt_buildings*
 ```{r}
-str(apt_buildings)
+glimpse(apt_buildings)
 ```
 
 ### 1.2.2 *building_permits*
 ```{r}
-str(building_permits)
+glimpse(building_permits)
 ```
   
 ### 1.2.3 *parking_meters*
 ```{r}
-str(parking_meters)
+glimpse(parking_meters)
 ```
 
 ### 1.2.4 *vancouver_trees*
 
 ```{r}
-str(vancouver_trees)
+glimpse(vancouver_trees)
 ```
 
 ## 1.3 Choose 2 Data sets
@@ -69,20 +70,24 @@ I am personally more interested in the changes of the apartment buildings over t
 
 ## 2.1/2.2 Using 4 Exercises (and Explanation)
 
+Using the *apt_buildings* data set, data manipulations like `filter()`, `group_by()`, and `summarise()` will be used together with ggplot2 to perform various data exploration and visualization. This will help us create a research question of interest. The list of exercises can be found in section 2.1 of the course [website](https://stat545.stat.ubc.ca/mini-project/mini-project-1/)
+
 ### 2.2.1 Exercise 1
 
-I plot the distribution of the number of units 
-
+This exercise is outlined by exercise 1 in the list. I first remove the outliers in the number of units using these [rules](https://stackoverflow.com/questions/4787332/how-to-remove-outliers-from-a-dataset) because there are only a few of them and they largely skew the distribution. Then, I plot the density of the number of units as categorized by the property type. This allows us to explore how the number of units change by property type. Although the information expressed in both plots are the same, I prefer the second plot because it allows us to see the densities in a more separated manner.
 
 ```{r}
 # Plot the distribution of a numeric variable.
-outliers <- boxplot.stats(apt_buildings$no_of_units)$out
+# determine outliers
+outliers <- boxplot.stats(apt_buildings$no_of_units)$out 
 
-apt_buildings %>%
-  filter(!no_of_units %in% outliers) %>%
+# densities all in one plot
+apt_buildings %>% 
+  filter(!no_of_units %in% outliers) %>% # get rid of outliers
   ggplot(aes(x=no_of_units, fill=property_type)) +  
   geom_density(alpha=.2)
 
+# densities in ggridges
 apt_buildings %>%
   filter(!no_of_units %in% outliers) %>%
   ggplot(aes(x=no_of_units, y=property_type)) +  
@@ -90,46 +95,62 @@ apt_buildings %>%
 ```
 
 ### 2.2.2 Exercise 2:
+
+This exercise is outlined by exercise 4 in the list. I first remove the data points with smoking building type that have `NA` values since I am not interested in exploring its effect on the data. Then I remove data points with *year_built* prior to 1910 because the number of units built in years prior were close to 0 and therefore negligible. I plot the smoking vs non-smoking units by year first as stacked values, then as percent values. Using the plot allows us to see the total number of units built every year. On the other hand, the second plot allows us to see the percent trend of smoking vs non-smoking units built by year. I prefer the second plot as we are moreso able to see how the trend changes.
+
 ```{r}
 # Explore the relationship between 2 variables in a plot.
+# stacked count data
 apt_buildings %>%
   filter(!is.na(`non-smoking_building`)) %>%
   mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
   filter(year > as.Date("1910", format="%Y")) %>%
   ggplot(aes(x=year, y=no_of_units)) + 
-  geom_bar(stat="identity", position="stack", alpha = 0.8, aes(fill=as.factor(`non-smoking_building`)))
+  geom_bar(stat="identity", position="stack", alpha = 0.6, aes(fill=as.factor(`non-smoking_building`)))
 
-
+# stacked percent data
 apt_buildings %>%
   filter(!is.na(`non-smoking_building`)) %>%
   mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
   filter(year > as.Date("1910", format="%Y")) %>%
   ggplot(aes(x=year, y=no_of_units)) + 
-  geom_bar(stat="identity", position="fill", alpha = 0.8,aes(fill=`non-smoking_building`))
+  geom_bar(stat="identity", position="fill", alpha = 0.6,aes(fill=`non-smoking_building`))
 ```
 
 ### 2.2.3 Exercise 3:
-```{r}
-#Use a boxplot to look at the frequency of different observations within a single variable. You can do this for more than one variable if you wish!
 
+This exercise is outlined by exercise 6 in the list. I first removed all data points with a visitor parking type and property type that have `NA` values since I am not interested in exploring its effect on the data. I also removed the data points with visitor parking type as "UNAVAILABLE" because I am also not interested in exploring its effect on the data. Finally, I plot the boxplots as grouped by in order of visitor parking type and property type. I did it in this specific order because we can compare the distribution of the number of units between property types of a specific visitor parking type. We can see if a specific property type tends to have more units with specific visitor parking type. 
+
+```{r}
+#Use a boxplot to look at the frequency of different observations within a single variable
 apt_buildings %>%
   filter(!is.na(visitor_parking)) %>%
   filter(!is.na(property_type)) %>%
   filter(!visitor_parking == "UNAVAILABLE") %>%
   ggplot(aes(x=visitor_parking,y=no_of_units, fill=property_type)) +
   geom_boxplot(alpha=0.2) + 
-  facet_wrap(~property_type, scale="free")
+  facet_wrap(~visitor_parking, scale="free")
 ```
 
 ### 2.2.4 Exercise 4:
+
+Lastly, this exercise is outlined by exercise 7 in the list. I first filter for apartments with an indoor pool. Then, I group the data by ward. Finally, I summarise the number of units in each group. This allows me to explore how the number of units with indoor pool changes within each ward.
+
 ```{r}
-# Make a new tibble with a subset of your data, with variables and observations that you are interested in exploring.
+# Make a new tibble with a subset of your data, with variables and observations that you are interested in exploring
 apt_buildings %>%
   filter("Indoor pool" %in% amenities) %>%
-  group_by(ward, property_type) %>%
-  summarise(total_units = sum(no_of_units))
-
+  group_by(ward) %>%
+  summarise(total_no_units = sum(no_of_units)) %>%
+  kable()
 ```
 
 # 3 Research Question
+
+Based on the data exploration, we ask the following research questions.
+
+1. Do certain property types prefer building apartments with a certain number of units?
+2. Is there are trend on the number of units built in smoking apartment buildings from 1910 to 2020?
+3. Does the number of units change according to property type for certain visitor parking types?
+4. For apartments with indoor pools, does the total number of units change according to ward?
 
