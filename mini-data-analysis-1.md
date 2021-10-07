@@ -16,6 +16,17 @@ various data exploration techniques to this data set in order to create
 
 ## 1.1 Choose 4 Data sets
 
+We first load all the appropriate packages.
+
+``` r
+suppressPackageStartupMessages(library(datateachr))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(ggridges))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(kableExtra))
+```
+
 From an initial pass through of the description of the various data set,
 I am most interested in the following 4 data sets:
 
@@ -27,6 +38,8 @@ I am most interested in the following 4 data sets:
 ## 1.2 Exploring Attributes of the 4 Datasets
 
 ### 1.2.1 *apt\_buildings*
+
+It has (1) 3455 rows, (2) 37 columns, and (3) is a tibble data frame.
 
 ``` r
 glimpse(apt_buildings)
@@ -74,6 +87,8 @@ glimpse(apt_buildings)
 
 ### 1.2.2 *building\_permits*
 
+It has (1) 20680 rows, (2) 14 columns, and (3) is a tibble data frame.
+
 ``` r
 glimpse(building_permits)
 ```
@@ -96,6 +111,8 @@ glimpse(building_permits)
     ## $ bi_id                       <dbl> 524, 535, 539, 541, 543, 546, 547, 548, 54~
 
 ### 1.2.3 *parking\_meters*
+
+It has (1) 10032 rows, (2) 22 columns, and (3) is a tibble data frame.
 
 ``` r
 glimpse(parking_meters)
@@ -127,6 +144,8 @@ glimpse(parking_meters)
     ## $ meter_id       <chr> "670805", "471405", "C80145", "D03704", "301023", "5913~
 
 ### 1.2.4 *vancouver\_trees*
+
+It has (1) 146,611 rows, (2) 20 columns, and (3) is a tibble data frame.
 
 ``` r
 glimpse(vancouver_trees)

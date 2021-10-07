@@ -13,13 +13,15 @@ This file goes through my exploration of different data sets in the `datateachr`
 
 ## 1.1 Choose 4 Data sets
 
-```{r, include = FALSE}
-library(datateachr)
-library(tidyverse)
-library(dplyr)
-library(ggridges)
-library(ggplot2)
-library(kableExtra)
+We first load all the appropriate packages.
+  
+```{r}
+suppressPackageStartupMessages(library(datateachr))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(ggridges))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(kableExtra))
 ```
 
 From an initial pass through of the description of the various data set, I am most interested in the following 4 data sets:
@@ -32,21 +34,30 @@ From an initial pass through of the description of the various data set, I am mo
 ## 1.2 Exploring Attributes of the 4 Datasets
 
 ### 1.2.1 *apt_buildings*
+
+It has (1) 3455 rows, (2) 37 columns, and (3) is a tibble data frame.
 ```{r}
 glimpse(apt_buildings)
 ```
 
 ### 1.2.2 *building_permits*
+It has (1) 20680 rows, (2) 14 columns, and (3) is a tibble data frame.
+
 ```{r}
 glimpse(building_permits)
 ```
   
 ### 1.2.3 *parking_meters*
+
+It has (1) 10032 rows, (2) 22 columns, and (3) is a tibble data frame.
+
 ```{r}
 glimpse(parking_meters)
 ```
 
 ### 1.2.4 *vancouver_trees*
+
+It has (1) 146,611 rows, (2) 20 columns, and (3) is a tibble data frame.
 
 ```{r}
 glimpse(vancouver_trees)
