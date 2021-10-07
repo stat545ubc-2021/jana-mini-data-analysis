@@ -1,3 +1,7 @@
+library(datateachr)
+library(tidyverse)
+library(dplyr)
+library(ggridges)
 library(ggplot2)
 
 str(building_permits)
@@ -17,32 +21,49 @@ str(parking_meters)
 table(parking_meters$r_mf_9a_6p)
 
 # Plot the distribution of a numeric variable.
-ggplot(data=apt_buildings, aes(x=no_of_units)) +  
-  geom_density(alpha=.2, fill="#FF6666")
-
 outliers <- boxplot.stats(apt_buildings$no_of_units)$out
-apt_buildings1 <- apt_buildings %>%
-  filter(!no_of_units %in% outliers)
 
-ggplot(data=apt_buildings1, aes(x=no_of_units)) +  
-  geom_density(alpha=.2, fill="#FF6666")
+apt_buildings %>%
+  filter(!no_of_units %in% outliers) %>%
+  ggplot(aes(x=no_of_units, fill=property_type)) +  
+  geom_density(alpha=.2)
+
+apt_buildings %>%
+  filter(!no_of_units %in% outliers) %>%
+  ggplot(aes(x=no_of_units, y=property_type)) +  
+  geom_density_ridges(alpha=0.2, aes(fill=property_type)) 
 
 
 # Explore the relationship between 2 variables in a plot.
-ggplot(data=apt_buildings1, aes(x=year_built, y=no_of_units)) + geom_line()
+apt_buildings %>%
+  filter(!is.na(`non-smoking_building`)) %>%
+  mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
+  filter(year > as.Date("1910", format="%Y")) %>%
+  ggplot(aes(x=year, y=no_of_units)) + 
+  geom_bar(stat="identity", position="stack", alpha = 0.8, aes(fill=as.factor(`non-smoking_building`)))
 
-# Filter observations in your data according to your own criteria. Think of what you’d like to explore - again, if this was the titanic dataset, I may want to narrow my search down to passengers born in a particular year…
+
+apt_buildings %>%
+  filter(!is.na(`non-smoking_building`)) %>%
+  mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
+  filter(year > as.Date("1910", format="%Y")) %>%
+  ggplot(aes(x=year, y=no_of_units)) + 
+  geom_bar(stat="identity", position="fill", alpha = 0.8,aes(fill=`non-smoking_building`))
 
 #Use a boxplot to look at the frequency of different observations within a single variable. You can do this for more than one variable if you wish!
 
-ggplot(data=apt_buildings1, aes(x=no_of_units)) +
-  geom_boxplot()
-
-ggplot(data=apt_buildings1, aes(x=no_of_storeys)) +
-  geom_boxplot()
-
-ggplot(data=apt_buildings1, aes(x=no_of_elevators)) +
-  geom_boxplot()
-
+apt_buildings %>%
+  filter(!is.na(visitor_parking)) %>%
+  filter(!is.na(property_type)) %>%
+  filter(!visitor_parking == "UNAVAILABLE") %>%
+  ggplot(aes(x=visitor_parking,y=no_of_units, fill=property_type)) +
+  geom_boxplot(alpha=0.2) + 
+  facet_wrap(~property_type, scale="free")
 
 # Make a new tibble with a subset of your data, with variables and observations that you are interested in exploring.
+apt_buildings %>%
+  filter("Indoor pool" %in% amenities) %>%
+  group_by(ward, property_type) %>%
+  summarise(total_units = sum(no_of_units))
+
+  

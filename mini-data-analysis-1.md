@@ -206,22 +206,100 @@ excited to see what we can explore with the *apt\_buildings* data set.
 
 ## 2.1/2.2 Using 4 Exercises (and Explanation)
 
-### 2.2.1 Exercise 1:
+### 2.2.1 Exercise 1
 
-| Grammar Component     | Specification |
-|-----------------------|---------------|
-| data                  | gapminder     |
-| aesthetic mapping     | year          |
-| geometric object      | bars          |
-| scale                 | linear        |
-| statistical transform | none          |
-| coordinate system     | rectangular   |
-| facetting             | none          |
+I plot the distribution of the number of units
+
+``` r
+# Plot the distribution of a numeric variable.
+outliers <- boxplot.stats(apt_buildings$no_of_units)$out
+
+apt_buildings %>%
+  filter(!no_of_units %in% outliers) %>%
+  ggplot(aes(x=no_of_units, fill=property_type)) +  
+  geom_density(alpha=.2)
+```
+
+![](mini-data-analysis-1_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+``` r
+apt_buildings %>%
+  filter(!no_of_units %in% outliers) %>%
+  ggplot(aes(x=no_of_units, y=property_type)) +  
+  geom_density_ridges(alpha=0.2, aes(fill=property_type)) 
+```
+
+    ## Picking joint bandwidth of 16.6
+
+![](mini-data-analysis-1_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
 
 ### 2.2.2 Exercise 2:
 
+``` r
+# Explore the relationship between 2 variables in a plot.
+apt_buildings %>%
+  filter(!is.na(`non-smoking_building`)) %>%
+  mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
+  filter(year > as.Date("1910", format="%Y")) %>%
+  ggplot(aes(x=year, y=no_of_units)) + 
+  geom_bar(stat="identity", position="stack", alpha = 0.8, aes(fill=as.factor(`non-smoking_building`)))
+```
+
+![](mini-data-analysis-1_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+``` r
+apt_buildings %>%
+  filter(!is.na(`non-smoking_building`)) %>%
+  mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
+  filter(year > as.Date("1910", format="%Y")) %>%
+  ggplot(aes(x=year, y=no_of_units)) + 
+  geom_bar(stat="identity", position="fill", alpha = 0.8,aes(fill=`non-smoking_building`))
+```
+
+![](mini-data-analysis-1_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
+
 ### 2.2.3 Exercise 3:
 
+``` r
+#Use a boxplot to look at the frequency of different observations within a single variable. You can do this for more than one variable if you wish!
+
+apt_buildings %>%
+  filter(!is.na(visitor_parking)) %>%
+  filter(!is.na(property_type)) %>%
+  filter(!visitor_parking == "UNAVAILABLE") %>%
+  ggplot(aes(x=visitor_parking,y=no_of_units, fill=property_type)) +
+  geom_boxplot(alpha=0.2) + 
+  facet_wrap(~property_type, scale="free")
+```
+
+![](mini-data-analysis-1_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
 ### 2.2.4 Exercise 4:
+
+``` r
+# Make a new tibble with a subset of your data, with variables and observations that you are interested in exploring.
+apt_buildings %>%
+  filter("Indoor pool" %in% amenities) %>%
+  group_by(ward, property_type) %>%
+  summarise(total_units = sum(no_of_units))
+```
+
+    ## `summarise()` has grouped output by 'ward'. You can override using the `.groups` argument.
+
+    ## # A tibble: 74 x 3
+    ## # Groups:   ward [26]
+    ##    ward  property_type  total_units
+    ##    <chr> <chr>                <dbl>
+    ##  1 01    PRIVATE               6958
+    ##  2 01    SOCIAL HOUSING         741
+    ##  3 01    TCHC                  1874
+    ##  4 02    PRIVATE              10963
+    ##  5 02    SOCIAL HOUSING         495
+    ##  6 02    TCHC                   478
+    ##  7 03    PRIVATE              10864
+    ##  8 03    SOCIAL HOUSING         515
+    ##  9 03    TCHC                  2021
+    ## 10 04    PRIVATE              13058
+    ## # ... with 64 more rows
 
 # 3 Research Question
