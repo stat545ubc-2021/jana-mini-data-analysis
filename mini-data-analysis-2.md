@@ -699,11 +699,16 @@ it untidy in this way allows me to explore this grouping easier.
 ## 2.3 Choose Research Question
 
 **Research Questions** Based on my exploration and reflections, I choose
-the following research questions: 1. Research question 2: Is there are
-trend on the number of units built in smoking apartment buildings from
-1910 to 2020?
+the following research questions:
 
-    Particularly, I think I can refine this question by asking what other factors can affect the trend in the number of smoking units versus non-smoking units over the years. I like this questions because I can perhaps create a time series model or even create more visualizations that include other factors in the analysis.
+1.  Research question 2: Is there are trend on the number of units built
+    in smoking apartment buildings from 1910 to 2020?
+
+    Particularly, I think I can refine this question by asking what
+    other factors can affect the trend in the number of smoking units
+    versus non-smoking units over the years. I like this questions
+    because I can perhaps create a time series model or even create more
+    visualizations that include other factors in the analysis.
 
 2.  Research question 4: For apartments with indoor pools, does the
     total number of units change according to ward?
@@ -725,7 +730,8 @@ only selected the columns that interested me using the `select`
 function, got rid of unwanted outliers using `filter`, widened the
 non-smoking building variable with values from *no\_of\_units* using
 `pivot_wider` and changed the *year\_built* variable from a string to a
-Date format using `mutate`.
+Date format using `mutate`. Below is my process of creating my final
+data set and a preview of the data.
 
 ``` r
 apt_buildings %>%
@@ -745,22 +751,22 @@ apt_buildings %>%
   filter(!no_of_units %in% outliers) %>%
   pivot_wider(names_from=`non-smoking_building`,
               values_from=no_of_units) %>%
-  mutate(year = as.Date(as.character(year_built), format="%Y"))
+  mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
+  as.data.frame() %>%
+  head()
 ```
 
-    ## # A tibble: 3,247 x 14
-    ##       id no_of_amenities property_type visitor_parking ward  year_built
-    ##    <dbl>           <dbl> <chr>         <chr>           <chr>      <dbl>
-    ##  1 10359               1 PRIVATE       PAID            17          1967
-    ##  2 10360               1 PRIVATE       FREE            17          1970
-    ##  3 10361               0 PRIVATE       UNAVAILABLE     03          1927
-    ##  4 10362               0 PRIVATE       UNAVAILABLE     03          1959
-    ##  5 10363               0 PRIVATE       UNAVAILABLE     02          1943
-    ##  6 10364               0 PRIVATE       UNAVAILABLE     02          1952
-    ##  7 10365               0 PRIVATE       PAID            02          1959
-    ##  8 10366               3 PRIVATE       FREE            02          1971
-    ##  9 10368               1 TCHC          BOTH            07          1972
-    ## 10 10369               0 PRIVATE       UNAVAILABLE     09          1945
-    ## # ... with 3,237 more rows, and 8 more variables: pets_allowed <chr>,
-    ## #   heating_type <chr>, balconies <chr>, air_conditioning <chr>, YES <dbl>,
-    ## #   NO <dbl>, NA <dbl>, year <date>
+    ##      id no_of_amenities property_type visitor_parking ward year_built
+    ## 1 10359               1       PRIVATE            PAID   17       1967
+    ## 2 10360               1       PRIVATE            FREE   17       1970
+    ## 3 10361               0       PRIVATE     UNAVAILABLE   03       1927
+    ## 4 10362               0       PRIVATE     UNAVAILABLE   03       1959
+    ## 5 10363               0       PRIVATE     UNAVAILABLE   02       1943
+    ## 6 10364               0       PRIVATE     UNAVAILABLE   02       1952
+    ##   pets_allowed heating_type balconies air_conditioning YES  NO NA       year
+    ## 1          YES    HOT WATER       YES             NONE 218  NA NA 1967-10-19
+    ## 2          YES    HOT WATER       YES             NONE  NA 206 NA 1970-10-19
+    ## 3          YES    HOT WATER       YES             NONE  34  NA NA 1927-10-19
+    ## 4          YES    HOT WATER       YES             NONE  42  NA NA 1959-10-19
+    ## 5          YES    HOT WATER        NO             NONE  25  NA NA 1943-10-19
+    ## 6          YES    HOT WATER        NO             NONE  NA  34 NA 1952-10-19
