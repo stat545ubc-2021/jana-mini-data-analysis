@@ -6,7 +6,7 @@ This is repository contains Jana Osea's work for the Mini Data Analysis project 
 
 ## Project Deliverables
 
-Below are brief descriptions of each milestone in this project, along with a checked box if the milestone was completed.
+Progress throughout the project can be seen from the milestone achieved below.
 
 **Milestone 1** (complete)
 
