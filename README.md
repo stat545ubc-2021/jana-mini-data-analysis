@@ -8,20 +8,21 @@ This is repository contains Jana Osea's work for the Mini Data Analysis project 
 
 Below are brief descriptions of each milestone in this project, along with a checked box if the milestone was completed.
 
-- [x] **Milestone 1** 
+**Milestone 1** (complete)
 
 October 9, 2021
 This milestone focusses on exploring the datasets found in the `datateachr` package. I eventually narrow down to one dataset, in this case, I choose the *apt_buildings* dataset. I explore the data and formulate 4 research questions.
-- [x] **Milestone 2** 
+
+**Milestone 2** (complete)
 
 October 19, 2021
 This milestone focusses on further exploring the research questions formulated in Milestone 1 by using various plotting and summarizing techniques shown in class. I reflect on my progress on the research questions. Lastly, I explore if the data is tidy or not.
 
-- [ ] **Milestone 3** 
+**Milestone 3** (not yet started)
 
 October 23, 2021
 
-## File List
+## List of Files
 
 - `README.md`: This file. Summarizes project goals and project progress.
 - `mini-data-analysis-1.Rmd`: R markdown file that contains all of exploration done for Milestone 1.
