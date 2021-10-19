@@ -10,16 +10,16 @@ Below are brief descriptions of each milestone in this project, along with a che
 
 - [x] **Milestone 1** 
 
-(October 9, 2021)
+October 9, 2021
 This milestone focusses on exploring the datasets found in the `datateachr` package. I eventually narrow down to one dataset, in this case, I choose the *apt_buildings* dataset. I explore the data and formulate 4 research questions.
 - [x] **Milestone 2** 
 
-(October 19, 2021)
+October 19, 2021
 This milestone focusses on further exploring the research questions formulated in Milestone 1 by using various plotting and summarizing techniques shown in class. I reflect on my progress on the research questions. Lastly, I explore if the data is tidy or not.
 
 - [ ] **Milestone 3** 
 
-(October 23, 2021)
+October 23, 2021
 
 ## File List
 
