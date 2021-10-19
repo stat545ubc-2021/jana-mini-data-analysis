@@ -326,9 +326,13 @@ Hence, the data set `apt_buildings5` is tidy!
 
 ### 2.2 Tidy to untidy or vice versa
 
+```{r}
+apt_buildings5 %>%
+  pivot_longer()
+```
 
 
-### 2.3 (5 points)
+### 2.3
 
 Now, you should be more familiar with your data, and also have made progress in answering your research questions. Based on your interest, and your analyses, pick 2 of the 4 research questions to continue your analysis in milestone 3, and explain your decision. 
 
