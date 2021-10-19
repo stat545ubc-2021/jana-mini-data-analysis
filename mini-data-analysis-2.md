@@ -67,10 +67,14 @@ manipulation functions.
 First, write out the 4 research questions you defined in milestone 1
 were. This will guide your work through milestone 2:
 
-1.  apt\_buildings
-2.  building\_permits
-3.  parking\_meters
-4.  vancouver\_trees
+1.  Do certain property types prefer building apartments with a certain
+    number of units?
+2.  Is there are trend on the number of units built in smoking apartment
+    buildings from 1910 to 2020?
+3.  Does the number of units change according to property type for
+    certain visitor parking types?
+4.  For apartments with indoor pools, does the total number of units
+    change according to ward?
 
 ### 1.2 (10 points)
 
@@ -121,7 +125,9 @@ building apartments with a certain number of units?
 
 The task is to compute the *range*, *mean*, and *two other summary
 statistics* of **one numerical variable** across the groups of **one
-categorical variable** from your data.
+categorical variable** from your data. This allows us to explore the
+distribution of values for number of units within different property
+types.
 
 ``` r
 # determine outliers
@@ -165,53 +171,264 @@ apt_buildings %>%
 ##### 1.2.1.2 Task 5: Graph Summary Statistics
 
 The task is to create a graph out of summarized variables that has at
-least two geom layers.
+least two geom layers. I chose to use a violin plot as it shows the data
+distribution of the number of units over the different property types in
+an explicit way. In addition, we are able to explicitly see the
+different quantiles.
 
 ``` r
-apt_buildings1 %>% 
-  ggplot(aes(x=property_type, y=mean, group=1)) +
-  geom_line() +
-  geom_point()+ 
-  ggtitle("Mean of Number of Units")
+apt_buildings %>% 
+  filter(!no_of_units %in% outliers) %>% # get rid of outliers
+  group_by(property_type) %>%
+  ggplot(aes(x=property_type, y=no_of_units, color=property_type)) +
+  geom_violin()+ 
+  geom_boxplot(width=0.1)
 ```
 
 ![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
-
-``` r
-apt_buildings1 %>% 
-  ggplot(aes(x=property_type, y=sum, group=1)) +
-  geom_line() +
-  geom_point() + 
-  ggtitle("Sum of Number of Units")
-```
-
-![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
 
 #### 1.2.2 Research Question 2
 
 The second research question is: Is there are trend on the number of
 units built in smoking apartment buildings from 1910 to 2020?
 
-##### 1.2.1.2 Task 1: Summary Statistics
+##### 1.2.2.1 Tasks 2:
 
-The task is to
+The task is to compute the number of observations for at least one of
+your categorical variables. Do not use the function `table()`! In this
+case, I created 3 different tibble data frames that count the data by
+different bins of years. `apt_buildings2.1` , `apt_buildings2.2`, and
+`apt_buildings2.3` are grouped by 10 years, 5 years, and 1 year
+correspondingly. The reason I did this was so that I can create
+visualizations as a secondary task to determine which bin would be the
+most useful ie. convey the same information without loss of generality.
+In addition, I added the extra column for
 
-##### 1.2.1.2 Task 8: 8. Create 3 Histograms.
+``` r
+# task 3
+apt_buildings %>%
+  filter(!is.na(`non-smoking_building`)) %>%
+  filter(!no_of_units %in% outliers) %>%
+  mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
+  filter(year > as.Date("1910", format="%Y")) %>%
+  mutate(year_category=cut(year_built, breaks=c(-Inf,seq(1910, 2020, 10)), labels=paste(c(seq(1900, 2010, 10)), c(seq(1909, 2009, 10), 2020), sep="-"))) %>%
+  group_by(year_category, property_type) %>%
+  count(`non-smoking_building`) -> apt_buildings2.1 # bin by 10
 
-The task is to
+apt_buildings %>%
+  filter(!is.na(`non-smoking_building`)) %>%
+  filter(!no_of_units %in% outliers) %>%
+  mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
+  filter(year > as.Date("1910", format="%Y")) %>%
+  mutate(year_category=cut(year_built, breaks=c(-Inf, seq(1905, 2020, 5)), labels=paste(c(seq(1900, 2015, 5)), c(seq(1904, 2014, 5),2020), sep="-"))) %>%
+  group_by(year_category, property_type) %>%
+  count(`non-smoking_building`) -> apt_buildings2.2 # bin by 5
 
-#### 1.2.2 Research Question 2
+
+apt_buildings %>%
+  filter(!is.na(`non-smoking_building`)) %>%
+  filter(!no_of_units %in% outliers) %>%
+  mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
+  filter(year > as.Date("1910", format="%Y")) %>%
+  group_by(year_built, property_type) %>%
+  count(`non-smoking_building`) -> apt_buildings2.3 # bin by 1
+
+apt_buildings2.1
+```
+
+    ## # A tibble: 51 x 4
+    ## # Groups:   year_category, property_type [33]
+    ##    year_category property_type  `non-smoking_building`     n
+    ##    <fct>         <chr>          <chr>                  <int>
+    ##  1 1910-1919     PRIVATE        NO                        35
+    ##  2 1910-1919     PRIVATE        YES                       36
+    ##  3 1910-1919     SOCIAL HOUSING NO                         3
+    ##  4 1910-1919     TCHC           YES                        1
+    ##  5 1920-1929     PRIVATE        NO                        69
+    ##  6 1920-1929     PRIVATE        YES                       64
+    ##  7 1920-1929     SOCIAL HOUSING NO                         2
+    ##  8 1920-1929     TCHC           YES                        2
+    ##  9 1930-1939     PRIVATE        NO                        53
+    ## 10 1930-1939     PRIVATE        YES                       30
+    ## # ... with 41 more rows
+
+``` r
+apt_buildings2.2
+```
+
+    ## # A tibble: 91 x 4
+    ## # Groups:   year_category, property_type [60]
+    ##    year_category property_type  `non-smoking_building`     n
+    ##    <fct>         <chr>          <chr>                  <int>
+    ##  1 1910-1914     PRIVATE        NO                         6
+    ##  2 1910-1914     PRIVATE        YES                       14
+    ##  3 1915-1919     PRIVATE        NO                        29
+    ##  4 1915-1919     PRIVATE        YES                       22
+    ##  5 1915-1919     SOCIAL HOUSING NO                         3
+    ##  6 1915-1919     TCHC           YES                        1
+    ##  7 1920-1924     PRIVATE        NO                        16
+    ##  8 1920-1924     PRIVATE        YES                        9
+    ##  9 1920-1924     TCHC           YES                        1
+    ## 10 1925-1929     PRIVATE        NO                        53
+    ## # ... with 81 more rows
+
+``` r
+apt_buildings2.3
+```
+
+    ## # A tibble: 301 x 4
+    ## # Groups:   year_built, property_type [208]
+    ##    year_built property_type  `non-smoking_building`     n
+    ##         <dbl> <chr>          <chr>                  <int>
+    ##  1       1911 PRIVATE        NO                         2
+    ##  2       1911 PRIVATE        YES                        3
+    ##  3       1912 PRIVATE        YES                        3
+    ##  4       1913 PRIVATE        YES                        3
+    ##  5       1914 PRIVATE        NO                         1
+    ##  6       1914 PRIVATE        YES                        2
+    ##  7       1915 PRIVATE        NO                         3
+    ##  8       1915 PRIVATE        YES                        3
+    ##  9       1916 PRIVATE        NO                         1
+    ## 10       1916 SOCIAL HOUSING NO                         1
+    ## # ... with 291 more rows
+
+##### 1.2.2.2
+
+The task is to create 3 histograms out of summarized variables, with
+each histogram having different sized bins. Pick the “best” one and
+explain why it is the best.
+
+``` r
+# task 8
+apt_buildings2.1 %>%
+  ggplot(aes(x=year_category, y=n, fill=`non-smoking_building`)) +  
+  geom_bar(stat="identity")
+```
+
+![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+``` r
+apt_buildings2.2 %>%
+  ggplot(aes(x=year_category, y=n, fill=`non-smoking_building`)) +  
+  geom_bar(stat="identity")
+```
+
+![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
+
+``` r
+apt_buildings2.3 %>%
+  ggplot(aes(x=year_built, y=n, fill=`non-smoking_building`)) +  
+  geom_bar(stat="identity")
+```
+
+![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-5-3.png)<!-- -->
+
+#### 1.2.3 Research Question 3
 
 The second research question is: Do certain property types prefer
 building apartments with a certain number of units?
 
-##### 1.2.1.2 Task 1: Summary Statistics
+##### 1.2.3.1
 
-The task is to
+The task is to compute the number of observations for at least one of
+your categorical variables. Do not use the function `table()`!
 
-##### 1.2.1.2 Task 8: 8. Create 3 Histograms.
+``` r
+# task 2
+apt_buildings %>%
+  filter(!is.na(visitor_parking)) %>%
+  filter(!is.na(property_type)) %>%
+  filter(!visitor_parking == "UNAVAILABLE") %>% 
+  group_by(property_type, visitor_parking) %>%
+  summarise(no_of_units_sum=sum(no_of_units)) %>%
+  mutate(no_of_units_sum_log = log(no_of_units_sum))-> apt_buildings3
+```
 
-The task is to
+    ## `summarise()` has grouped output by 'property_type'. You can override using the `.groups` argument.
+
+``` r
+apt_buildings3
+```
+
+    ## # A tibble: 9 x 4
+    ## # Groups:   property_type [3]
+    ##   property_type  visitor_parking no_of_units_sum no_of_units_sum_log
+    ##   <chr>          <chr>                     <dbl>               <dbl>
+    ## 1 PRIVATE        BOTH                      13370                9.50
+    ## 2 PRIVATE        FREE                     135656               11.8 
+    ## 3 PRIVATE        PAID                      46486               10.7 
+    ## 4 SOCIAL HOUSING BOTH                        681                6.52
+    ## 5 SOCIAL HOUSING FREE                      12521                9.44
+    ## 6 SOCIAL HOUSING PAID                       1371                7.22
+    ## 7 TCHC           BOTH                      24727               10.1 
+    ## 8 TCHC           FREE                       1222                7.11
+    ## 9 TCHC           PAID                      17837                9.79
+
+##### 1.2.3.2
+
+The task is to create a graph out of summarized variables that has at
+least two geom layers.
+
+``` r
+# task 5
+apt_buildings3 %>% 
+  ggplot(aes(x=property_type, y=no_of_units_sum, colour=visitor_parking, group=visitor_parking)) +
+  geom_line() +
+  geom_point()
+```
+
+![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+``` r
+apt_buildings3 %>% 
+  ggplot(aes(x=property_type, y=no_of_units_sum_log, colour=visitor_parking, group=visitor_parking)) +
+  geom_line() +
+  geom_point()
+```
+
+![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
+
+#### 1.2.4 Research Question 4
+
+##### 1.2.4.1
+
+The task is to compute the number of observations for at least one of
+your categorical variables. Do not use the function `table()`!
+
+``` r
+# task 2
+# count number of amenities by splitting words
+no_of_amenities <- rep(0, nrow(apt_buildings))
+for(i in 1:nrow(apt_buildings)) {
+  amenities = apt_buildings$amenities[i]
+  if(!is.na(amenities)) {
+    no_of_amenities[i] = length(str_split(amenities, " ,")[[1]])
+  }
+}
+
+apt_buildings %>%
+  cbind(no_of_amenities) %>%
+  na.omit() %>%
+  group_by(ward, `non-smoking_building`) %>%
+  summarise(no_of_amenities_sum=sum(no_of_amenities)) -> apt_buildings4
+```
+
+    ## `summarise()` has grouped output by 'ward'. You can override using the `.groups` argument.
+
+##### 1.2.4.2
+
+The task is to create a graph out of summarized variables that has at
+least two geom layers.
+
+``` r
+# task 5
+apt_buildings4  %>%
+  ggplot(aes(x=ward, y=no_of_amenities_sum, fill=`non-smoking_building`)) +
+  geom_bar(stat="identity") +
+  facet_wrap(~`non-smoking_building`)
+```
+
+![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 ### 1.3 (2.5 points)
 

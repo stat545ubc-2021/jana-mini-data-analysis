@@ -65,6 +65,14 @@ apt_buildings %>%
   group_by(year_built, property_type) %>%
   count(`non-smoking_building`) -> apt_buildings2.3 # bin by 1
 
+apt_buildings %>%
+  filter(!is.na(`non-smoking_building`)) %>%
+  filter(!no_of_units %in% outliers) %>%
+  mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
+  filter(year > as.Date("1910", format="%Y")) %>%
+  group_by(year_built, property_type) %>%
+  count(`non-smoking_building`)
+
 # task 8
 apt_buildings2.1 %>%
   ggplot(aes(x=year_category, y=n, fill=`non-smoking_building`)) +  
@@ -77,6 +85,11 @@ apt_buildings2.2 %>%
 apt_buildings2.3 %>%
   ggplot(aes(x=year_built, y=n, fill=`non-smoking_building`)) +  
   geom_bar(stat="identity")
+
+
+apt_buildings2.3 %>%
+  ggplot(aes(x=year_built, y=n, fill=`non-smoking_building`)) +
+  geom_histogram(stat="identity")
 
 # RESEARCH QUESTION 3
 
@@ -143,7 +156,7 @@ apt_buildings %>%
   na.omit() %>%
   group_by(ward, `non-smoking_building`) %>%
   summarise(no_of_amenities_sum=sum(no_of_amenities)) -> apt_buildings4
-
+apt_buildings4
 
 # task 5
 apt_buildings4  %>%
