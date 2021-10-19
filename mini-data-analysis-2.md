@@ -1,27 +1,17 @@
-Mini Data Analysis Milestone 2
+Mini Data Analysis 2
 ================
+Jana Osea
+October 18, 2021
 
-*To complete this milestone, you can either edit [this `.rmd`
-file](https://raw.githubusercontent.com/UBC-STAT/stat545.stat.ubc.ca/master/content/mini-project/mini-project-2.Rmd)
-directly. Fill in the sections that are commented out with
-`<!--- start your work here--->`. When you are done, make sure to knit
-to an `.md` file by changing the output in the YAML header to
-`github_document`, before submitting a tagged release on canvas.*
+# 0 Introduction
 
-# Welcome back to your mini data analysis project!
-
-This time, we will explore more in depth the concept of *tidy data*, and
-hopefully investigate further into your research questions that you
-defined in milestone 1.
-
-**NOTE**: The main purpose of the mini data analysis is to integrate
-what you learn in class in an analysis. Although each milestone provides
-a framework for you to conduct your analysis, it’s possible that you
-might find the instructions too rigid for your data set. If this is the
-case, you may deviate from the instructions – just make sure you’re
-demonstrating a wide range of tools and techniques taught in this class.
-
-Begin by loading your data and the tidyverse package below:
+This file goes through my data exploration to answer some questions as
+outlined in the [first mini data
+analysis](https://github.com/stat545ubc-2021/jana-mini-data-analysis/blob/main/mini-data-analysis-1.md).
+The data used is from the `datateachr` package. The project outline can
+be [here](https://stat545.stat.ubc.ca/mini-project/mini-project-2/). I
+will be documenting the data exploration tasks used for each research
+question. First, we load the appropriate library packages.
 
 ``` r
 suppressPackageStartupMessages(library(datateachr))
@@ -32,40 +22,11 @@ suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(kableExtra))
 ```
 
-# Learning Objectives
+# 1 Process and summarize your data
 
-By the end of this milestone, you should:
+## 1.1 Research Questions
 
--   Become familiar with manipulating and summarizing your data in
-    tibbles using `dplyr` and `tidyr`, with a research question in mind.
--   Understand what *tidy* data is, and how to create it. In milestone
-    3, we will explore when this might be useful.
--   Generate a reproducible and clear report using R Markdown.
--   Gain a greater understanding of how to use R to answer research
-    questions about your data.
-
-**Things to keep in mind**
-
--   Remember to document your code, be explicit about what you are
-    doing, and write notes in this markdown document when you feel that
-    context is required. Create your analysis as if someone else will be
-    reading it! **There will be 2.5 points reserved for reproducibility,
-    readability, and repo organization.**
-
--   Before working on each task, you should always keep in mind the
-    specific **research question** that you’re trying to answer.
-
-# Task 1: Process and summarize your data (15 points)
-
-From milestone 1, you should have an idea of the basic structure of your
-dataset (e.g. number of rows and columns, class types, etc.). Here, we
-will start investigating your data more in-depth using various data
-manipulation functions.
-
-### 1.1 (2.5 points)
-
-First, write out the 4 research questions you defined in milestone 1
-were. This will guide your work through milestone 2:
+First, I write out the 4 research questions defined in milestone 1.
 
 1.  Do certain property types prefer building apartments with a certain
     number of units?
@@ -76,16 +37,10 @@ were. This will guide your work through milestone 2:
 4.  For apartments with indoor pools, does the total number of units
     change according to ward?
 
-### 1.2 (10 points)
+## 1.2 Summarizing and Graphing Tasks
 
-Now, for each of your four research questions, choose one task from
-options 1-4 (summarizing), and one other task from 4-8 (graphing). You
-should have 2 tasks done for each research question (8 total). Make sure
-it makes sense to do them! (e.g. don’t use a numerical variables for a
-task that needs a categorical variable.). Comment on why each task helps
-(or doesn’t!) answer the corresponding research question.
-
-Ensure that the output of each operation is printed!
+Now, for each of four research questions, I choose one task from options
+1-4 (summarizing), and one other task from 4-8 (graphing).
 
 **Summarizing:**
 
@@ -113,15 +68,12 @@ Ensure that the output of each operation is printed!
     having different sized bins. Pick the “best” one and explain why it
     is the best.
 
-Make sure it’s clear what research question you are doing each operation
-for!
-
-#### 1.2.1 Research Question 1
+### 1.2.1 Research Question 1
 
 The first research question is: Do certain property types prefer
 building apartments with a certain number of units?
 
-##### 1.2.1.1 Task 1: Summary Statistics
+#### 1.2.1.1 Task 1: Summary Statistics
 
 The task is to compute the *range*, *mean*, and *two other summary
 statistics* of **one numerical variable** across the groups of **one
@@ -168,7 +120,7 @@ apt_buildings %>%
     ## 5 TCHC             278    11 111.   30920
     ## 6 TCHC             278   266 111.   30920
 
-##### 1.2.1.2 Task 5: Graph Summary Statistics
+#### 1.2.1.2 Task 5: Graph Summary Statistics
 
 The task is to create a graph out of summarized variables that has at
 least two geom layers. I chose to use a violin plot as it shows the data
@@ -187,12 +139,12 @@ apt_buildings %>%
 
 ![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-#### 1.2.2 Research Question 2
+### 1.2.2 Research Question 2
 
 The second research question is: Is there are trend on the number of
 units built in smoking apartment buildings from 1910 to 2020?
 
-##### 1.2.2.1 Tasks 2:
+#### 1.2.2.1 Tasks 2: Compute observations
 
 The task is to compute the number of observations for at least one of
 your categorical variables. Do not use the function `table()`! In this
@@ -202,7 +154,11 @@ different bins of years. `apt_buildings2.1` , `apt_buildings2.2`, and
 correspondingly. The reason I did this was so that I can create
 visualizations as a secondary task to determine which bin would be the
 most useful ie. convey the same information without loss of generality.
-In addition, I added the extra column for
+It is also good to note that I am summing over the *no\_of\_units* of
+each group since that is a more accurate number to count rather than
+just the counts of each observation. In addition, I added the extra
+column of describing property type as I potentially would like to
+explore how this factor can affect the number smoking units.
 
 ``` r
 # task 3
@@ -211,7 +167,7 @@ apt_buildings %>%
   filter(!no_of_units %in% outliers) %>%
   mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
   filter(year > as.Date("1910", format="%Y")) %>%
-  mutate(year_category=cut(year_built, breaks=c(-Inf,seq(1910, 2020, 10)), labels=paste(c(seq(1900, 2010, 10)), c(seq(1909, 2009, 10), 2020), sep="-"))) %>%
+  mutate(year_category=cut(year_built, breaks=c(-Inf,seq(1910, 2020, 10)), labels=paste(seq(1900, 2010, 10)))) %>%
   group_by(year_category, property_type) %>%
   count(`non-smoking_building`) -> apt_buildings2.1 # bin by 10
 
@@ -220,7 +176,7 @@ apt_buildings %>%
   filter(!no_of_units %in% outliers) %>%
   mutate(year = as.Date(as.character(year_built), format="%Y")) %>%
   filter(year > as.Date("1910", format="%Y")) %>%
-  mutate(year_category=cut(year_built, breaks=c(-Inf, seq(1905, 2020, 5)), labels=paste(c(seq(1900, 2015, 5)), c(seq(1904, 2014, 5),2020), sep="-"))) %>%
+  mutate(year_category=cut(year_built, breaks=c(-Inf, seq(1905, 2020, 5)), labels=paste(seq(1900, 2015, 5)))) %>%
   group_by(year_category, property_type) %>%
   count(`non-smoking_building`) -> apt_buildings2.2 # bin by 5
 
@@ -240,16 +196,16 @@ apt_buildings2.1
     ## # Groups:   year_category, property_type [33]
     ##    year_category property_type  `non-smoking_building`     n
     ##    <fct>         <chr>          <chr>                  <int>
-    ##  1 1910-1919     PRIVATE        NO                        35
-    ##  2 1910-1919     PRIVATE        YES                       36
-    ##  3 1910-1919     SOCIAL HOUSING NO                         3
-    ##  4 1910-1919     TCHC           YES                        1
-    ##  5 1920-1929     PRIVATE        NO                        69
-    ##  6 1920-1929     PRIVATE        YES                       64
-    ##  7 1920-1929     SOCIAL HOUSING NO                         2
-    ##  8 1920-1929     TCHC           YES                        2
-    ##  9 1930-1939     PRIVATE        NO                        53
-    ## 10 1930-1939     PRIVATE        YES                       30
+    ##  1 1910          PRIVATE        NO                        35
+    ##  2 1910          PRIVATE        YES                       36
+    ##  3 1910          SOCIAL HOUSING NO                         3
+    ##  4 1910          TCHC           YES                        1
+    ##  5 1920          PRIVATE        NO                        69
+    ##  6 1920          PRIVATE        YES                       64
+    ##  7 1920          SOCIAL HOUSING NO                         2
+    ##  8 1920          TCHC           YES                        2
+    ##  9 1930          PRIVATE        NO                        53
+    ## 10 1930          PRIVATE        YES                       30
     ## # ... with 41 more rows
 
 ``` r
@@ -260,16 +216,16 @@ apt_buildings2.2
     ## # Groups:   year_category, property_type [60]
     ##    year_category property_type  `non-smoking_building`     n
     ##    <fct>         <chr>          <chr>                  <int>
-    ##  1 1910-1914     PRIVATE        NO                         6
-    ##  2 1910-1914     PRIVATE        YES                       14
-    ##  3 1915-1919     PRIVATE        NO                        29
-    ##  4 1915-1919     PRIVATE        YES                       22
-    ##  5 1915-1919     SOCIAL HOUSING NO                         3
-    ##  6 1915-1919     TCHC           YES                        1
-    ##  7 1920-1924     PRIVATE        NO                        16
-    ##  8 1920-1924     PRIVATE        YES                        9
-    ##  9 1920-1924     TCHC           YES                        1
-    ## 10 1925-1929     PRIVATE        NO                        53
+    ##  1 1910          PRIVATE        NO                         6
+    ##  2 1910          PRIVATE        YES                       14
+    ##  3 1915          PRIVATE        NO                        29
+    ##  4 1915          PRIVATE        YES                       22
+    ##  5 1915          SOCIAL HOUSING NO                         3
+    ##  6 1915          TCHC           YES                        1
+    ##  7 1920          PRIVATE        NO                        16
+    ##  8 1920          PRIVATE        YES                        9
+    ##  9 1920          TCHC           YES                        1
+    ## 10 1925          PRIVATE        NO                        53
     ## # ... with 81 more rows
 
 ``` r
@@ -292,14 +248,25 @@ apt_buildings2.3
     ## 10       1916 SOCIAL HOUSING NO                         1
     ## # ... with 291 more rows
 
-##### 1.2.2.2
+#### 1.2.2.2 Task 8: Choose Bins
 
 The task is to create 3 histograms out of summarized variables, with
 each histogram having different sized bins. Pick the “best” one and
-explain why it is the best.
+explain why it is the best. The binning for the first 2 plots were made
+manually due to the fact that `ggplot` is unable to make bins by year
+when in the `stat="identity"` mode. I had to use the `stat="identity"`
+mode since I am not actually using the counts of the data but rather
+taking the sum of *no\_of\_units* column by groups. Hence, the graphs
+are actually “self” made histograms made by `geom_bar`. Regardless, the
+goal which is to find which binning is appropriate can still be
+achieved. Looking at the 3 different bins, I believe that the “best” one
+would be the first one because the information is the same but with less
+groupings. However, it is still somewhat difficult to see if there is an
+apparent trend in the number of smoking buildings over the years.
 
 ``` r
 # task 8
+# bin by 10
 apt_buildings2.1 %>%
   ggplot(aes(x=year_category, y=n, fill=`non-smoking_building`)) +  
   geom_bar(stat="identity")
@@ -308,6 +275,7 @@ apt_buildings2.1 %>%
 ![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
+# bin by 5
 apt_buildings2.2 %>%
   ggplot(aes(x=year_category, y=n, fill=`non-smoking_building`)) +  
   geom_bar(stat="identity")
@@ -316,6 +284,7 @@ apt_buildings2.2 %>%
 ![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
 
 ``` r
+# bin by 1
 apt_buildings2.3 %>%
   ggplot(aes(x=year_built, y=n, fill=`non-smoking_building`)) +  
   geom_bar(stat="identity")
@@ -323,15 +292,19 @@ apt_buildings2.3 %>%
 
 ![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-5-3.png)<!-- -->
 
-#### 1.2.3 Research Question 3
+### 1.2.3 Research Question 3
 
-The second research question is: Do certain property types prefer
-building apartments with a certain number of units?
+The third research question is: Does the number of units change
+according to property type for certain visitor parking types?
 
-##### 1.2.3.1
+#### 1.2.3.1 Task 2: Compute Observations
 
 The task is to compute the number of observations for at least one of
-your categorical variables. Do not use the function `table()`!
+your categorical variables. Do not use the function `table()`! Similar
+to 1.2.2.1, it is more useful to use to actually sum over the
+*no\_of\_units* as it more accurately represents the apartment units
+buils over the groupings. I also calculate the *no\_of\_units\_sum\_log*
+as I wanted to see if the values work better on a log scale.
 
 ``` r
 # task 2
@@ -364,10 +337,16 @@ apt_buildings3
     ## 8 TCHC           FREE                       1222                7.11
     ## 9 TCHC           PAID                      17837                9.79
 
-##### 1.2.3.2
+#### 1.2.3.2 Task 5: Graph Summary Statistics
 
 The task is to create a graph out of summarized variables that has at
-least two geom layers.
+least two geom layers. I created 2 graphs that plotted the
+*no\_of\_units\_sum* by group where the x-axis represents the property
+type and the different lines represent parking type. If a certain
+property type does not affect the parking type, then the lines should be
+coincidental. It is clear that there is an effect because the lines are
+not coincidental. In addition, I plotted the log-scale of the sum of the
+number of units. It is even more evident that there is an effect.
 
 ``` r
 # task 5
@@ -388,12 +367,28 @@ apt_buildings3 %>%
 
 ![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
 
-#### 1.2.4 Research Question 4
+### 1.2.4 Research Question 4
 
-##### 1.2.4.1
+The fourth research question is: for apartments with indoor pools, does
+the total number of units change according to ward?
+
+#### 1.2.4.1 Task 2: Compute Observations
 
 The task is to compute the number of observations for at least one of
-your categorical variables. Do not use the function `table()`!
+your categorical variables. Do not use the function `table()`! I wanted
+to broaden the scope of the research question to counting the number of
+amenities by ward instead of just looking at the number of units that
+have pools by ward. I think it is more interesting to look at the
+overall number of amenities in each apartment building grouped by ward.
+In addition, I also grouped it by smoking vs non-smoking units because I
+think it would be interesting to see if there is a difference between
+the two. Similar to the previous research questions, I compute the sum
+of the *no\_of\_amenities* over each group instead of just adding the
+counts of the number of observations since it is a more useful number to
+work with and it reflects the actual target characteristic. It is good
+to note that the number of amenities was first taken by processing the
+*amenities* column which is reflected in the first few lines of code
+below.
 
 ``` r
 # task 2
@@ -406,8 +401,10 @@ for(i in 1:nrow(apt_buildings)) {
   }
 }
 
+# bind the number of amenities as a new column in the apt_buildings tibble df
+cbind(apt_buildings, no_of_amenities) -> apt_buildings
+
 apt_buildings %>%
-  cbind(no_of_amenities) %>%
   na.omit() %>%
   group_by(ward, `non-smoking_building`) %>%
   summarise(no_of_amenities_sum=sum(no_of_amenities)) -> apt_buildings4
@@ -415,10 +412,34 @@ apt_buildings %>%
 
     ## `summarise()` has grouped output by 'ward'. You can override using the `.groups` argument.
 
-##### 1.2.4.2
+``` r
+apt_buildings4
+```
+
+    ## # A tibble: 50 x 3
+    ## # Groups:   ward [26]
+    ##    ward  `non-smoking_building` no_of_amenities_sum
+    ##    <chr> <chr>                                <dbl>
+    ##  1 01    NO                                      10
+    ##  2 01    YES                                     10
+    ##  3 02    NO                                      41
+    ##  4 02    YES                                     17
+    ##  5 03    NO                                      24
+    ##  6 03    YES                                     23
+    ##  7 04    NO                                      29
+    ##  8 04    YES                                      9
+    ##  9 05    NO                                      17
+    ## 10 05    YES                                      6
+    ## # ... with 40 more rows
+
+#### 1.2.4.2 Task 5: Graph Summary Statistics
 
 The task is to create a graph out of summarized variables that has at
-least two geom layers.
+least two geom layers. I chose to highlight difference between the
+number of amenities present in the wards by smoking and non-smoking
+groups by creating 2 side-by-side graphs. This allows us to more easily
+see the differences in the shape and distribution. It is somewhat
+obvious that there is a difference.
 
 ``` r
 # task 5
@@ -430,21 +451,68 @@ apt_buildings4  %>%
 
 ![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
-### 1.3 (2.5 points)
+## 1.3 Research Question Reflection
 
-Based on the operations that you’ve completed, how much closer are you
-to answering your research questions? Think about what aspects of your
-research questions remain unclear. Can your research questions be
-refined, now that you’ve investigated your data a bit more? Which
-research questions are yielding interesting results?
+Here is the list of my research questions for quick reference:
 
-<!------------------------- Write your answer here ---------------------------->
-<!----------------------------------------------------------------------------->
+1.  Do certain property types prefer building apartments with a certain
+    number of units?
+2.  Is there are trend on the number of units built in smoking apartment
+    buildings from 1910 to 2020?
+3.  Does the number of units change according to property type for
+    certain visitor parking types?
+4.  For apartments with indoor pools, does the total number of units
+    change according to ward?
 
-# Task 2: Tidy your data (12.5 points)
+Below are my reflections so far.
 
-In this task, we will do several exercises to reshape our data. The goal
-here is to understand how to do this reshaping with the `tidyr` package.
+**Based on the operations that you’ve completed, how much closer are you
+to answering your research questions?**
+
+Based on the tasks completed, all of the research questions have been
+explored–however, some questions have shown to be more interesting than
+others. I think for all of them, the visualizations provide a very good
+overview of the general answers. However, it is hard to say for certain
+that we are confident in the “feel” that these visualizations give. It
+would be more helpful if some sort of hypothesis testing or modelling
+can be done. This is where the data can help.
+
+**Think about what aspects of your research questions remain unclear.**
+
+For research question (2), although I have decided which bin I would
+like to use to explore the trend, it is still unclear if there is a
+definite trend in the number of non-smoking versus smoking buildings
+that were built from 1910 to 2020. I think some sort of time series
+analysis can be done. It would also be good if I could potentially group
+by certain categorical variables that can affect this number. More data
+manipulations can be done to explore this topic. For research question
+(4), I decided to broaden the scope to counting the number of amenities
+grouped by ward and smoking type. Although I think this is interesting,
+I think it would be good if I could explore potential other variables
+that can affect this number. I think it would clarify why there could be
+a reason why this number varies over the wards.
+
+**Can your research questions be refined, now that you’ve investigated
+your data a bit more?**
+
+I think overall, the research questions have a good scope aside from the
+changes aspects that can be clarified as pointed out in point 2. I
+definitely think that as more data exploration is done, the research
+questions will definitely be more clear and the goal more defined.
+
+**Which research questions are yielding interesting results?**
+
+Like I have mentioned, some research questions are more interesting than
+others. For example, I think research question (1) simply just asks if
+certain property types prefer building apartments with a certain number
+of units. I think it would be more interesting if the research question
+could broaden its scope to asking if certain property types prefer to
+build apartments with certain aspects like: window pane type or amenity
+type. Hence, I think it is more interesting to explore topics as
+mentioned in research question (2) or (4) since they already start
+looking at other variables that can affect the response variable.
+
+# 2 Tidy your data
 
 A reminder of the definition of *tidy* data:
 
@@ -456,28 +524,109 @@ A reminder of the definition of *tidy* data:
 computation. Other times it can be nice to organize data so that it can
 be easier to understand when read manually.
 
-### 2.1 (2.5 points)
+## 2.1 Identifying Tidy data
 
-Based on the definition above, can you identify if your data is tidy or
-untidy? Go through all your columns, or if you have &gt;8 variables,
-just pick 8, and explain whether the data is untidy or tidy.
+First we take a look at the data using `glimpse`
 
-<!--------------------------- Start your work below --------------------------->
-<!----------------------------------------------------------------------------->
+``` r
+glimpse(apt_buildings)
+```
 
-### 2.2 (5 points)
+    ## Rows: 3,455
+    ## Columns: 38
+    ## $ id                               <dbl> 10359, 10360, 10361, 10362, 10363, 10~
+    ## $ air_conditioning                 <chr> "NONE", "NONE", "NONE", "NONE", "NONE~
+    ## $ amenities                        <chr> "Outdoor rec facilities", "Outdoor po~
+    ## $ balconies                        <chr> "YES", "YES", "YES", "YES", "NO", "NO~
+    ## $ barrier_free_accessibilty_entr   <chr> "YES", "NO", "NO", "YES", "NO", "NO",~
+    ## $ bike_parking                     <chr> "0 indoor parking spots and 10 outdoo~
+    ## $ exterior_fire_escape             <chr> "NO", "NO", "NO", "YES", "NO", NA, "N~
+    ## $ fire_alarm                       <chr> "YES", "YES", "YES", "YES", "YES", "Y~
+    ## $ garbage_chutes                   <chr> "YES", "YES", "NO", "NO", "NO", "NO",~
+    ## $ heating_type                     <chr> "HOT WATER", "HOT WATER", "HOT WATER"~
+    ## $ intercom                         <chr> "YES", "YES", "YES", "YES", "YES", "Y~
+    ## $ laundry_room                     <chr> "YES", "YES", "YES", "YES", "YES", "Y~
+    ## $ locker_or_storage_room           <chr> "NO", "YES", "YES", "YES", "NO", "YES~
+    ## $ no_of_elevators                  <dbl> 3, 3, 0, 1, 0, 0, 0, 2, 4, 2, 0, 2, 2~
+    ## $ parking_type                     <chr> "Underground Garage , Garage accessib~
+    ## $ pets_allowed                     <chr> "YES", "YES", "YES", "YES", "YES", "Y~
+    ## $ prop_management_company_name     <chr> NA, "SCHICKEDANZ BROS. PROPERTIES", N~
+    ## $ property_type                    <chr> "PRIVATE", "PRIVATE", "PRIVATE", "PRI~
+    ## $ rsn                              <dbl> 4154812, 4154815, 4155295, 4155309, 4~
+    ## $ separate_gas_meters              <chr> "NO", "NO", "NO", "NO", "NO", "NO", "~
+    ## $ separate_hydro_meters            <chr> "YES", "YES", "YES", "YES", "YES", "Y~
+    ## $ separate_water_meters            <chr> "NO", "NO", "NO", "NO", "NO", "NO", "~
+    ## $ site_address                     <chr> "65  FOREST MANOR RD", "70  CLIPPER R~
+    ## $ sprinkler_system                 <chr> "YES", "YES", "NO", "YES", "NO", "NO"~
+    ## $ visitor_parking                  <chr> "PAID", "FREE", "UNAVAILABLE", "UNAVA~
+    ## $ ward                             <chr> "17", "17", "03", "03", "02", "02", "~
+    ## $ window_type                      <chr> "DOUBLE PANE", "DOUBLE PANE", "DOUBLE~
+    ## $ year_built                       <dbl> 1967, 1970, 1927, 1959, 1943, 1952, 1~
+    ## $ year_registered                  <dbl> 2017, 2017, 2017, 2017, 2017, NA, 201~
+    ## $ no_of_storeys                    <dbl> 17, 14, 4, 5, 4, 4, 4, 7, 32, 4, 4, 7~
+    ## $ emergency_power                  <chr> "NO", "YES", "NO", "NO", "NO", "NO", ~
+    ## $ `non-smoking_building`           <chr> "YES", "NO", "YES", "YES", "YES", "NO~
+    ## $ no_of_units                      <dbl> 218, 206, 34, 42, 25, 34, 14, 105, 57~
+    ## $ no_of_accessible_parking_spaces  <dbl> 8, 10, 20, 42, 12, 0, 5, 1, 1, 6, 12,~
+    ## $ facilities_available             <chr> "Recycling bins", "Green Bin / Organi~
+    ## $ cooling_room                     <chr> "NO", "NO", "NO", "NO", "NO", "NO", "~
+    ## $ no_barrier_free_accessible_units <dbl> 2, 0, 0, 42, 0, NA, 14, 0, 0, 1, 25, ~
+    ## $ no_of_amenities                  <dbl> 1, 1, 0, 0, 0, 0, 0, 3, 0, 1, 0, 0, 0~
 
-Now, if your data is tidy, untidy it! Then, tidy it back to it’s
-original state.
+There is clearly more than 8 columns, so we will only choose the columns
+that I mostly used for the research questions. I will store the data in
+the `apt_buildings5` data frame.
 
-If your data is untidy, then tidy it! Then, untidy it back to it’s
-original state.
+``` r
+apt_buildings %>%
+  select(no_of_amenities,
+         property_type,
+         visitor_parking,
+         ward,
+         year_built,
+         `non-smoking_building`,
+         no_of_units,
+         pets_allowed # added to meet the 8 minimum requirement
+         ) %>%
+  na.omit() -> apt_buildings5
+head(apt_buildings5)
+```
 
-Be sure to explain your reasoning for this task. Show us the “before”
-and “after”.
+    ##   no_of_amenities property_type visitor_parking ward year_built
+    ## 1               1       PRIVATE            PAID   17       1967
+    ## 2               1       PRIVATE            FREE   17       1970
+    ## 3               0       PRIVATE     UNAVAILABLE   03       1927
+    ## 4               0       PRIVATE     UNAVAILABLE   03       1959
+    ## 5               0       PRIVATE     UNAVAILABLE   02       1943
+    ## 6               0       PRIVATE     UNAVAILABLE   02       1952
+    ##   non-smoking_building no_of_units pets_allowed
+    ## 1                  YES         218          YES
+    ## 2                   NO         206          YES
+    ## 3                  YES          34          YES
+    ## 4                  YES          42          YES
+    ## 5                  YES          25          YES
+    ## 6                   NO          34          YES
 
-<!--------------------------- Start your work below --------------------------->
-<!----------------------------------------------------------------------------->
+Now we answer if the data is Tidy by addressing the following points:
+
+-   Is each row an **observation**?
+
+    It is clear that each row represents an observation where each
+    observation is a specific apartment unit.
+
+-   Is each column a **variable**?
+
+    It is also clear that each column represents a certain aspect of
+    each observation.
+
+-   Is each cell a **value**?
+
+    It can be seen that each cell represents a value taken on by each
+    observation for that specific column variable.
+
+Hence, the data set `apt_buildings5` is tidy!
+
+### 2.2 Tidy to untidy or vice versa
 
 ### 2.3 (5 points)
 
