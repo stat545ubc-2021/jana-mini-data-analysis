@@ -639,15 +639,3 @@ Try to choose a version of your data that you think will be appropriate
 to answer these 2 questions in milestone 3. Use between 4 and 8
 functions that we’ve covered so far (i.e. by filtering, cleaning,
 tidy’ing, dropping irrelvant columns, etc.).
-
-fdfasdfasdf
-
-<!----------------------------------------------------------------------------->
-
-*When you are done, knit an `md` file. This is what we will mark! Make
-sure to open it and check that everything has knitted correctly before
-submitting your tagged release.*
-
-### Attribution
-
-Thanks to Victor Yuan for mostly putting this together.
