@@ -16,6 +16,7 @@ question. First, we load the appropriate library packages.
 ``` r
 suppressPackageStartupMessages(library(datateachr))
 suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(tidyr))
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(ggridges))
 suppressPackageStartupMessages(library(ggplot2))
@@ -579,7 +580,8 @@ the `apt_buildings5` data frame.
 
 ``` r
 apt_buildings %>%
-  select(no_of_amenities,
+  select(id,
+         no_of_amenities,
          property_type,
          visitor_parking,
          ward,
@@ -592,13 +594,13 @@ apt_buildings %>%
 head(apt_buildings5)
 ```
 
-    ##   no_of_amenities property_type visitor_parking ward year_built
-    ## 1               1       PRIVATE            PAID   17       1967
-    ## 2               1       PRIVATE            FREE   17       1970
-    ## 3               0       PRIVATE     UNAVAILABLE   03       1927
-    ## 4               0       PRIVATE     UNAVAILABLE   03       1959
-    ## 5               0       PRIVATE     UNAVAILABLE   02       1943
-    ## 6               0       PRIVATE     UNAVAILABLE   02       1952
+    ##      id no_of_amenities property_type visitor_parking ward year_built
+    ## 1 10359               1       PRIVATE            PAID   17       1967
+    ## 2 10360               1       PRIVATE            FREE   17       1970
+    ## 3 10361               0       PRIVATE     UNAVAILABLE   03       1927
+    ## 4 10362               0       PRIVATE     UNAVAILABLE   03       1959
+    ## 5 10363               0       PRIVATE     UNAVAILABLE   02       1943
+    ## 6 10364               0       PRIVATE     UNAVAILABLE   02       1952
     ##   non-smoking_building no_of_units pets_allowed
     ## 1                  YES         218          YES
     ## 2                   NO         206          YES
@@ -626,16 +628,139 @@ Now we answer if the data is Tidy by addressing the following points:
 
 Hence, the data set `apt_buildings5` is tidy!
 
-### 2.2 Tidy to untidy or vice versa
+## 2.2 Tidy to untidy or vice versa
 
-### 2.3 (5 points)
+For reference, here is a view of the data set `apt_buildings5` as a Tidy
+data set.
 
-Now, you should be more familiar with your data, and also have made
-progress in answering your research questions. Based on your interest,
-and your analyses, pick 2 of the 4 research questions to continue your
-analysis in milestone 3, and explain your decision.
+``` r
+head(apt_buildings5)
+```
 
-Try to choose a version of your data that you think will be appropriate
-to answer these 2 questions in milestone 3. Use between 4 and 8
-functions that we’ve covered so far (i.e. by filtering, cleaning,
-tidy’ing, dropping irrelvant columns, etc.).
+    ##      id no_of_amenities property_type visitor_parking ward year_built
+    ## 1 10359               1       PRIVATE            PAID   17       1967
+    ## 2 10360               1       PRIVATE            FREE   17       1970
+    ## 3 10361               0       PRIVATE     UNAVAILABLE   03       1927
+    ## 4 10362               0       PRIVATE     UNAVAILABLE   03       1959
+    ## 5 10363               0       PRIVATE     UNAVAILABLE   02       1943
+    ## 6 10364               0       PRIVATE     UNAVAILABLE   02       1952
+    ##   non-smoking_building no_of_units pets_allowed
+    ## 1                  YES         218          YES
+    ## 2                   NO         206          YES
+    ## 3                  YES          34          YES
+    ## 4                  YES          42          YES
+    ## 5                  YES          25          YES
+    ## 6                   NO          34          YES
+
+I take the categorical variable *property\_type* which take on the
+values PRIVATE, TCHC, and SOCIAL HOUSING and use each value as its own
+column variable which take on the value of the ward number. This means
+that if an apartment is has a property type that is PRIVATE and is found
+in ward 17, only the PRIVATE column will be filled while the other
+columns TCHC and SOCIAL HOUSING are empty. In addition, the PRIVATE cell
+for this apartment will be filled with the number 17. I store this
+untidy data set in a data frame called `apt_buildings6`. Below is my
+untidy operation along with an after look at the data frame.
+
+``` r
+apt_buildings5 %>%
+  pivot_wider(names_from=property_type,
+              values_from=ward) %>%
+  as.data.frame()-> apt_buildings6
+class(apt_buildings6)
+```
+
+    ## [1] "data.frame"
+
+``` r
+head(apt_buildings6)
+```
+
+    ##      id no_of_amenities visitor_parking year_built non-smoking_building
+    ## 1 10359               1            PAID       1967                  YES
+    ## 2 10360               1            FREE       1970                   NO
+    ## 3 10361               0     UNAVAILABLE       1927                  YES
+    ## 4 10362               0     UNAVAILABLE       1959                  YES
+    ## 5 10363               0     UNAVAILABLE       1943                  YES
+    ## 6 10364               0     UNAVAILABLE       1952                   NO
+    ##   no_of_units pets_allowed PRIVATE TCHC SOCIAL HOUSING
+    ## 1         218          YES      17 <NA>           <NA>
+    ## 2         206          YES      17 <NA>           <NA>
+    ## 3          34          YES      03 <NA>           <NA>
+    ## 4          42          YES      03 <NA>           <NA>
+    ## 5          25          YES      02 <NA>           <NA>
+    ## 6          34          YES      02 <NA>           <NA>
+
+I choose to untidy in in this way because it would be interesting to see
+explore the grouping of property type by ward with respect to the
+continuous variables like *no\_of\_units* or *no\_of\_amenities*. Having
+it untidy in this way allows me to explore this grouping easier.
+
+## 2.3 Choose Research Question
+
+**Research Questions** Based on my exploration and reflections, I choose
+the following research questions: 1. Research question 2: Is there are
+trend on the number of units built in smoking apartment buildings from
+1910 to 2020?
+
+    Particularly, I think I can refine this question by asking what other factors can affect the trend in the number of smoking units versus non-smoking units over the years. I like this questions because I can perhaps create a time series model or even create more visualizations that include other factors in the analysis.
+
+2.  Research question 4: For apartments with indoor pools, does the
+    total number of units change according to ward?
+
+    As mentioned in 1.2.4.1, I have already broadened the scope of this
+    question by changing it to counting the number of amenities in each
+    ward. This is really an interesting research question because we
+    could potentially factors that affect why certain apartment
+    buildings can have gyms or swimming pools over other apartment
+    buildings.
+
+**Data set**
+
+These 2 research questions are grouped differently from each other. The
+first one is grouped by years (binned by 10 years) and the second one is
+grouped by ward. It would make sense to keep the data as raw as possible
+ie. not much grouping or summarising already done before hand. Hence, I
+only selected the columns that interested me using the `select`
+function, got rid of unwanted outliers using `filter`, widened the
+non-smoking building variable with values from *no\_of\_units* using
+`pivot_wider` and changed the *year\_built* variable from a string to a
+Date format using `mutate`.
+
+``` r
+apt_buildings %>%
+  select(id,
+         no_of_amenities,
+         property_type,
+         visitor_parking,
+         ward,
+         year_built,
+         `non-smoking_building`,
+         no_of_units,
+         pets_allowed,
+         heating_type,
+         balconies,
+         air_conditioning
+         ) %>%
+  filter(!no_of_units %in% outliers) %>%
+  pivot_wider(names_from=`non-smoking_building`,
+              values_from=no_of_units) %>%
+  mutate(year = as.Date(as.character(year_built), format="%Y"))
+```
+
+    ## # A tibble: 3,247 x 14
+    ##       id no_of_amenities property_type visitor_parking ward  year_built
+    ##    <dbl>           <dbl> <chr>         <chr>           <chr>      <dbl>
+    ##  1 10359               1 PRIVATE       PAID            17          1967
+    ##  2 10360               1 PRIVATE       FREE            17          1970
+    ##  3 10361               0 PRIVATE       UNAVAILABLE     03          1927
+    ##  4 10362               0 PRIVATE       UNAVAILABLE     03          1959
+    ##  5 10363               0 PRIVATE       UNAVAILABLE     02          1943
+    ##  6 10364               0 PRIVATE       UNAVAILABLE     02          1952
+    ##  7 10365               0 PRIVATE       PAID            02          1959
+    ##  8 10366               3 PRIVATE       FREE            02          1971
+    ##  9 10368               1 TCHC          BOTH            07          1972
+    ## 10 10369               0 PRIVATE       UNAVAILABLE     09          1945
+    ## # ... with 3,237 more rows, and 8 more variables: pets_allowed <chr>,
+    ## #   heating_type <chr>, balconies <chr>, air_conditioning <chr>, YES <dbl>,
+    ## #   NO <dbl>, NA <dbl>, year <date>
