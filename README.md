@@ -8,8 +8,9 @@ This is repository contains Jana Osea's work for the Mini Data Analysis project 
 Below are brief descriptions of each milestone in this project, along with a checked box if the milestone was completed.
 
 - [x] **Milestone 1** 
+
 (October 9, 2021)
-This milestone focusses on 
+This milestone focusses on exploring the datasets found in the `datateachr` package. I eventually narrow down to one dataset, in this case, I choose the *apt_buildings* dataset. I explore the data and formulate 4 research questions.
 - [x] **Milestone 2** (October 19, 2021)
 
 - [ ] **Milestone 3** (October 23, 2021)
