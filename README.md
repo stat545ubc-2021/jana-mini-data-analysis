@@ -1,5 +1,6 @@
 # Mini Data Analysis
-# STAT 545A FALL 2021
+
+*STAT 545A FALL 2021*
 
 This is repository contains Jana Osea's work for the Mini Data Analysis project for STAT 545A. The course website is found [here](https://stat545.stat.ubc.ca/course/). The goal of this project is to explore data using various techniques intorduced in class in order to formulate and answer various research questions.
 
