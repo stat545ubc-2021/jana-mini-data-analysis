@@ -138,7 +138,7 @@ apt_buildings %>%
   geom_boxplot(width=0.1)
 ```
 
-![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](milestone-2_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ### 1.2.2 Research Question 2
 
@@ -273,7 +273,7 @@ apt_buildings2.1 %>%
   geom_bar(stat="identity")
 ```
 
-![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](milestone-2_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
 # bin by 5
@@ -282,7 +282,7 @@ apt_buildings2.2 %>%
   geom_bar(stat="identity")
 ```
 
-![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
+![](milestone-2_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
 
 ``` r
 # bin by 1
@@ -291,7 +291,7 @@ apt_buildings2.3 %>%
   geom_bar(stat="identity")
 ```
 
-![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-5-3.png)<!-- -->
+![](milestone-2_files/figure-gfm/unnamed-chunk-5-3.png)<!-- -->
 
 ### 1.2.3 Research Question 3
 
@@ -357,7 +357,7 @@ apt_buildings3 %>%
   geom_point()
 ```
 
-![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](milestone-2_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 apt_buildings3 %>% 
@@ -366,7 +366,7 @@ apt_buildings3 %>%
   geom_point()
 ```
 
-![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
+![](milestone-2_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
 
 ### 1.2.4 Research Question 4
 
@@ -450,7 +450,7 @@ apt_buildings4  %>%
   facet_wrap(~`non-smoking_building`)
 ```
 
-![](mini-data-analysis-2_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](milestone-2_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 ## 1.3 Research Question Reflection
 
@@ -764,9 +764,9 @@ apt_buildings %>%
     ## 5 10363               0       PRIVATE     UNAVAILABLE   02       1943
     ## 6 10364               0       PRIVATE     UNAVAILABLE   02       1952
     ##   pets_allowed heating_type balconies air_conditioning YES  NO NA       year
-    ## 1          YES    HOT WATER       YES             NONE 218  NA NA 1967-10-19
-    ## 2          YES    HOT WATER       YES             NONE  NA 206 NA 1970-10-19
-    ## 3          YES    HOT WATER       YES             NONE  34  NA NA 1927-10-19
-    ## 4          YES    HOT WATER       YES             NONE  42  NA NA 1959-10-19
-    ## 5          YES    HOT WATER        NO             NONE  25  NA NA 1943-10-19
-    ## 6          YES    HOT WATER        NO             NONE  NA  34 NA 1952-10-19
+    ## 1          YES    HOT WATER       YES             NONE 218  NA NA 1967-10-21
+    ## 2          YES    HOT WATER       YES             NONE  NA 206 NA 1970-10-21
+    ## 3          YES    HOT WATER       YES             NONE  34  NA NA 1927-10-21
+    ## 4          YES    HOT WATER       YES             NONE  42  NA NA 1959-10-21
+    ## 5          YES    HOT WATER        NO             NONE  25  NA NA 1943-10-21
+    ## 6          YES    HOT WATER        NO             NONE  NA  34 NA 1952-10-21

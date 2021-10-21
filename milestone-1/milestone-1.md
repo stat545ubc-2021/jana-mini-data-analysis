@@ -243,7 +243,7 @@ apt_buildings %>%
   geom_density(alpha=.2)
 ```
 
-![](mini-data-analysis-1_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](milestone-1_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 # densities in ggridges
@@ -255,7 +255,7 @@ apt_buildings %>%
 
     ## Picking joint bandwidth of 16.6
 
-![](mini-data-analysis-1_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
+![](milestone-1_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
 
 ### 2.2.2 Exercise 2:
 
@@ -282,7 +282,7 @@ apt_buildings %>%
   geom_bar(stat="identity", position="stack", alpha = 0.6, aes(fill=as.factor(`non-smoking_building`)))
 ```
 
-![](mini-data-analysis-1_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](milestone-1_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 # stacked percent data
@@ -294,7 +294,7 @@ apt_buildings %>%
   geom_bar(stat="identity", position="fill", alpha = 0.6,aes(fill=`non-smoking_building`))
 ```
 
-![](mini-data-analysis-1_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
+![](milestone-1_files/figure-gfm/unnamed-chunk-7-2.png)<!-- -->
 
 ### 2.2.3 Exercise 3:
 
@@ -320,7 +320,7 @@ apt_buildings %>%
   facet_wrap(~visitor_parking, scale="free")
 ```
 
-![](mini-data-analysis-1_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](milestone-1_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 ### 2.2.4 Exercise 4:
 
