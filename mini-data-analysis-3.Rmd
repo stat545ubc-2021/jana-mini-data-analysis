@@ -21,29 +21,7 @@ suppressPackageStartupMessages(library(kableExtra))
 suppressPackageStartupMessages(library(lubridate))
 ```
 
-From Milestone 2, you chose two research questions. What were they? Put them here.
-
-1. What factors affect the trend on the number of smoking/non-smoking apartment units from 1910 to 2020? 
-2. Does the number of amenities change by ward? What factors affect the number of amenities in apartment units?
-
-# Exercise 1: Special Data Types
-
-
-1. Produce a new plot that reorders a factor in your original plot, using the `forcats` package (3 points). Then, in a sentence or two, briefly explain why you chose this ordering (1 point here for demonstrating understanding of the reordering, and 1 point for demonstrating some justification for the reordering, which could be subtle or speculative.)
-
-2. Produce a new plot that groups some factor levels together into an "other" category (or something similar), using the `forcats` package (3 points). Then, in a sentence or two, briefly explain why you chose this grouping (1 point here for demonstrating understanding of the grouping, and 1 point for demonstrating some justification for the grouping, which could be subtle or speculative.)
-
-3. If your data has some sort of time-based column like a date (but something more granular than just a year):
-    1. Make a new column that uses a function from the `lubridate` or `tsibble` package to modify your original time-based column. (3 points)
-        - Note that you might first have to _make_ a time-based column using a function like `ymd()`, but this doesn't count.
-        - Examples of something you might do here: extract the day of the year from a date, or extract the weekday, or let 24 hours elapse on your dates.
-    2. Then, in a sentence or two, explain how your new column might be useful in exploring a research question. (1 point for demonstrating understanding of the function you used, and 1 point for your justification, which could be subtle or speculative).
-        - For example, you could say something like "Investigating the day of the week might be insightful because penguins don't work on weekends, and so may respond differently".
-    
-
-
-
-**Task Number**: FILL_THIS_IN
+After loading the appropriate packages, I load the data as processed in the previous milestone.
 
 ```{r}
 # LOAD DATA
@@ -81,12 +59,43 @@ apt_buildings %>%
   mutate(year_built = year(as_date(year_built)))-> apt_buildings
 ```
 
+## Research Questions
+
+1. Do various apartment characteristics like number of balconies, whether pets are allowed, and air conditioning type affect the trend of the number of smoking/non-smoking apartment units from 1910 to 2020? 
+2. What are similar characteristics in each ward with lower number of amenities versus higher?
+
+# Exercise 1: Special Data Types
 
 
+**Task 1**: I choose to reorder the column *ward* in the *apt_building* data set so that I am able to better visualize which wards have more total number of amenities. It also allows us to see which wards have similar total number of amenities.
+
+```{r}
+apt_buildings %>%
+  group_by(ward) %>%
+  summarise(no_of_amenities = sum(no_of_amenities)) %>%
+  mutate(ward = fct_reorder(ward, no_of_amenities)) %>%
+  ggplot(aes(x=ward, y=no_of_amenities, color=ward, fill=ward)) + 
+  geom_bar(stat="identity", alpha=0.2) + 
+  ggtitle("Number of Amenities by Ward")
+```
 
 
-**Task Number**: FILL_THIS_IN
+**Task 2**: The column *visitor_parking* column has *UNAVAILABLE* as an option, however there are also data points with *NA* as input. Hence, I used the `fct_collapse` along with `addNA` function in order to combine the *UNAVAILABLE*  option with the *NA* option. This allows us to still include the number of NA's into the analysis. 
 
+```{r}
+apt_buildings$visitor_parking  <- fct_collapse(addNA(apt_buildings$visitor_parking),
+                                               UNAVAILABLE = c("UNAVAILABLE", NA))
+
+
+apt_buildings %>%
+  group_by(ward, visitor_parking) %>%
+  summarise(no_of_amenities = sum(no_of_amenities), 
+            no_of_unit = sum(no_of_units)) %>%
+  mutate(visitor_parking = fct_reorder(visitor_parking, no_of_amenities)) %>%
+  ggplot(aes(x=ward, y=no_of_amenities, fill=visitor_parking, color=visitor_parking)) +
+  geom_bar(stat="identity", alpha=0.2) +
+  ggtitle("Number of Amenities by Ward and by Visitor Parking")
+```
 
 # Exercise 2: Modelling
 
