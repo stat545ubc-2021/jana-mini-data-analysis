@@ -17,6 +17,7 @@ suppressPackageStartupMessages(library(ggridges))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(kableExtra))
 suppressPackageStartupMessages(library(lubridate))
+suppressPackageStartupMessages(library(broom))
 ```
 
 After loading the appropriate packages, I load the data as processed in
@@ -60,12 +61,11 @@ apt_buildings %>%
 
 ## Research Questions
 
-1.  Do various apartment characteristics like number of balconies,
-    whether pets are allowed, and air conditioning type affect the trend
-    of the number of smoking/non-smoking apartment units from 1910 to
-    2020?
-2.  What are similar characteristics in each ward with lower number of
-    amenities versus higher?
+1.  Is there a downward or upward trend in the number non-smoking units
+    built from 1910 to 2020?
+2.  Does the number of amenities change by ward and by smoking building
+    type? Is there an interaction between smoking building type and ward
+    on the number of amenities?
 
 # Exercise 1: Special Data Types
 
@@ -86,6 +86,13 @@ apt_buildings %>%
 
 ![](mini-data-analysis-3_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
+``` r
+apt_buildings %>%
+  group_by(ward) %>%
+  summarise(no_of_amenities = sum(no_of_amenities)) %>%
+  mutate(ward = fct_reorder(ward, no_of_amenities)) -> apt_buildings1
+```
+
 **Task 2**: The column *visitor\_parking* column has *UNAVAILABLE* as an
 option, however there are also data points with *NA* as input. Hence, I
 used the `fct_collapse` along with `addNA` function in order to combine
@@ -93,21 +100,29 @@ the *UNAVAILABLE* option with the *NA* option. This allows us to still
 include the number of NA’s into the analysis.
 
 ``` r
-apt_buildings$visitor_parking  <- fct_collapse(addNA(apt_buildings$visitor_parking),
-                                               UNAVAILABLE = c("UNAVAILABLE", NA))
-
-
+# create tibble 
 apt_buildings %>%
   group_by(ward, visitor_parking) %>%
   summarise(no_of_amenities = sum(no_of_amenities), 
-            no_of_unit = sum(no_of_units)) %>%
-  mutate(visitor_parking = fct_reorder(visitor_parking, no_of_amenities)) %>%
+            no_of_unit = sum(no_of_units)) -> apt_buildings2
+```
+
+    ## `summarise()` has grouped output by 'ward'. You can override using the `.groups` argument.
+
+``` r
+# change factor levels to be reordered the same as task 1 
+apt_buildings2$ward <- factor(apt_buildings2$ward, 
+                              levels(apt_buildings1$ward))
+
+apt_buildings2$visitor_parking <-  fct_reorder(factor(apt_buildings2$visitor_parking), 
+            apt_buildings2$no_of_amenities)
+
+# plot num of amenities by ward and visitor parking 
+apt_buildings2 %>% 
   ggplot(aes(x=ward, y=no_of_amenities, fill=visitor_parking, color=visitor_parking)) +
   geom_bar(stat="identity", alpha=0.2) +
   ggtitle("Number of Amenities by Ward and by Visitor Parking")
 ```
-
-    ## `summarise()` has grouped output by 'ward'. You can override using the `.groups` argument.
 
 ![](mini-data-analysis-3_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
@@ -115,56 +130,79 @@ apt_buildings %>%
 
 ## 2.0 (no points)
 
-Pick a research question, and pick a variable of interest (we’ll call it
-“Y”) that’s relevant to the research question. Indicate these.
+**Research Question**: Does the number of amenities change by ward and
+by smoking building type? Is there an interaction between smoking
+building type and ward on the number of amenities?
 
-<!-------------------------- Start your work below ---------------------------->
+**Variable of interest**: Number of amenities
 
-**Research Question**: FILL\_THIS\_IN
+## 2.1
 
-**Variable of interest**: FILL\_THIS\_IN
+I will perform a TWO-way ANOVA to test if:
 
-<!----------------------------------------------------------------------------->
+1.  there is no difference in the mean number of amenities at any level
+    of the ward variable.
+2.  there is no difference in the mean number of amenities at any level
+    of the smoking building type variable.
+3.  the effect of the ward variable does not depend on the effect of the
+    smoking building type variable (a.k.a. no interaction effect).
 
-## 2.1 (5 points)
+The code to perform the test and the output is shown below.
 
-Fit a model or run a hypothesis test that provides insight on this
-variable with respect to the research question. Store the model object
-as a variable, and print its output to screen. We’ll omit having to
-justify your choice, because we don’t expect you to know about model
-specifics in STAT 545.
+``` r
+my_aov <- aov(no_of_amenities ~ ward * `non-smoking_building`, 
+              data=apt_buildings)
+my_aov
+```
 
--   **Note**: It’s OK if you don’t know how these models/tests work.
-    Here are some examples of things you can do here, but the sky’s the
-    limit.
-    -   You could fit a model that makes predictions on Y using another
-        variable, by using the `lm()` function.
-    -   You could test whether the mean of Y equals 0 using `t.test()`,
-        or maybe the mean across two groups are different using
-        `t.test()`, or maybe the mean across multiple groups are
-        different using `anova()` (you may have to pivot your data for
-        the latter two).
-    -   You could use `lm()` to test for significance of regression.
+    ## Call:
+    ##    aov(formula = no_of_amenities ~ ward * `non-smoking_building`, 
+    ##     data = apt_buildings)
+    ## 
+    ## Terms:
+    ##                      ward `non-smoking_building` ward:`non-smoking_building`
+    ## Sum of Squares   239.6591                 1.0256                     57.0057
+    ## Deg. of Freedom        24                      1                          24
+    ##                 Residuals
+    ## Sum of Squares  2240.0732
+    ## Deg. of Freedom      3105
+    ## 
+    ## Residual standard error: 0.8493766
+    ## Estimated effects may be unbalanced
+    ## 92 observations deleted due to missingness
 
-<!-------------------------- Start your work below ---------------------------->
-<!----------------------------------------------------------------------------->
+## 2.2
 
-## 2.2 (5 points)
+I will use the *p*-value as a way to determine the results of the test
+using the `broom` package.
 
-Produce something relevant from your fitted model: either predictions on
-Y, or a single value like a regression coefficient or a p-value.
+``` r
+my_aov_tidy <- tidy(my_aov)
+my_aov_tidy
+```
 
--   Be sure to indicate in writing what you chose to produce.
--   Your code should either output a tibble (in which case you should
-    indicate the column that contains the thing you’re looking for), or
-    the thing you’re looking for itself.
--   Obtain your results using the `broom` package if possible. If your
-    model is not compatible with the broom function you’re needing, then
-    you can obtain your results by some other means, but first indicate
-    which broom function is not compatible.
+    ## # A tibble: 4 x 6
+    ##   term                           df   sumsq meansq statistic   p.value
+    ##   <chr>                       <dbl>   <dbl>  <dbl>     <dbl>     <dbl>
+    ## 1 ward                           24  240.    9.99      13.8   7.14e-53
+    ## 2 `non-smoking_building`          1    1.03  1.03       1.42  2.33e- 1
+    ## 3 ward:`non-smoking_building`    24   57.0   2.38       3.29  1.13e- 7
+    ## 4 Residuals                    3105 2240.    0.721     NA    NA
 
-<!-------------------------- Start your work below ---------------------------->
-<!----------------------------------------------------------------------------->
+``` r
+my_aov_tidy$p.value
+```
+
+    ## [1] 7.142548e-53 2.332375e-01 1.131079e-07           NA
+
+Using an *α* = 0.05, we conclude that the first and third *p*-values are
+significant. Hence, we conclude that:
+
+-   the mean number of amenities is not the same for at least one ward
+    level
+-   there is an interaction effect; the effect of the ward variable on
+    the mean number of amenities is affected by the effect of the
+    smoking building type
 
 # Exercise 3: Reading and writing data
 
@@ -184,9 +222,6 @@ function.
     project repository / folder, and your code should still work.
 -   **Reproducibility criteria**: You should be able to delete the csv
     file, and remake it simply by knitting this Rmd file.
-
-<!-------------------------- Start your work below ---------------------------->
-<!----------------------------------------------------------------------------->
 
 ## 3.2 (5 points)
 
@@ -238,32 +273,3 @@ Every level-1 folder (that is, the ones stored in the top level, like
 “Milestone1” and “output”) has a `README` file, explaining in a sentence
 or two what is in the folder, in plain language (it’s enough to say
 something like “This folder contains the source for Milestone 1”).
-
-## Output (2 points)
-
-All output is recent and relevant:
-
--   All Rmd files have been `knit`ted to their output, and all data
-    files saved from Exercise 3 above appear in the `output` folder.
--   All of these output files are up-to-date – that is, they haven’t
-    fallen behind after the source (Rmd) files have been updated.
--   There should be no relic output files. For example, if you were
-    knitting an Rmd to html, but then changed the output to be only a
-    markdown file, then the html file is a relic and should be deleted.
-
-Our recommendation: delete all output files, and re-knit each
-milestone’s Rmd file, so that everything is up to date and relevant.
-
-PS: there’s a way where you can run all project code using a single
-command, instead of clicking “knit” three times. More on this in STAT
-545B!
-
-## Error-free code (1 point)
-
-This Milestone 3 document knits error-free. (We’ve already graded this
-aspect for Milestone 1 and 2)
-
-## Tagged release (1 point)
-
-You’ve tagged a release for Milestone 3. (We’ve already graded this
-aspect for Milestone 1 and 2)
