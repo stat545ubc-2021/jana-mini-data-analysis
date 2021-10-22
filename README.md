@@ -8,19 +8,13 @@ This is repository contains Jana Osea's work for the Mini Data Analysis project 
 
 Progress throughout the project can be seen from the milestone achieved below.
 
-**Milestone 1** (complete)
-
-October 9, 2021
+- [x] **Milestone 1** *October 9, 2021*
 Initial data exploration, data selection, and formulating research questions
 
-**Milestone 2** (complete)
-
-October 19, 2021
+- [x] **Milestone 2** *October 19, 2021*
 Refining research questions
 
-**Milestone 3** (complete)
-
-October 23, 2021
+- [x] **Milestone 3** *October 23, 2021*
 Concluding exploration
 
 
