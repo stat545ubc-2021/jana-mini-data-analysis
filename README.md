@@ -11,24 +11,22 @@ Progress throughout the project can be seen from the milestone achieved below.
 **Milestone 1** (complete)
 
 October 9, 2021
-This milestone focusses on exploring the datasets found in the `datateachr` package. I eventually narrow down to one dataset, in this case, I choose the *apt_buildings* dataset. I explore the data and formulate 4 research questions.
+Initial data exploration, data selection, and formulating research questions
 
 **Milestone 2** (complete)
 
 October 19, 2021
-This milestone focusses on further exploring the research questions formulated in Milestone 1 by using various plotting and summarizing techniques shown in class. I reflect on my progress on the research questions. Lastly, I explore if the data is tidy or not.
+Refining research questions
 
-**Milestone 3** (not yet started)
+**Milestone 3** (complete)
 
 October 23, 2021
+Concluding exploration
+
 
 ## List of Files
 
 - `README.md`: This file. Summarizes project goals and project progress.
-- `mini-data-analysis-1.Rmd`: R markdown file that contains all of exploration done for Milestone 1.
-- `mini-data-analysis-1.md`: Markdown file that is the knitted version of the  `mini-data-analysis-1.Rmd` file
-- `mini-data-analysis-1_files/`: Folder that contains the figures produced by  `mini-data-analysis-1.md` file
-- `mini-data-analysis-2.Rmd`: R markdown file that contains all of exploration done for Milestone 2.
-- `mini-data-analysis-2.md`: Markdown file that is the knitted version of the  `mini-data-analysis-2.Rmd` file
-- `mini-data-analysis-2_files/`: Folder that contains the figures produced by  `mini-data-analysis-2.md` file
-
+- `milestone-1/`: folder that contains all of the files used for Milestone 1.
+- `milestone-2/`: folder that contains all of the files used for Milestone 2.
+- `milestone-3/`: folder that contains all of the files used for Milestone 3.
