@@ -24,3 +24,4 @@ Concluding exploration
 - `milestone-1/`: folder that contains all of the files used for Milestone 1.
 - `milestone-2/`: folder that contains all of the files used for Milestone 2.
 - `milestone-3/`: folder that contains all of the files used for Milestone 3.
+- `output/`: folder that contains all of the files outputted from Milestone 3
