@@ -21,6 +21,7 @@ Concluding exploration
 ## List of Files
 
 - `README.md`: This file. Summarizes project goals and project progress.
+- `mini-data-analysis.Rproj`: R project file that opens up entire data analysis environment in R.
 - `milestone-1/`: folder that contains all of the files used for Milestone 1.
 - `milestone-2/`: folder that contains all of the files used for Milestone 2.
 - `milestone-3/`: folder that contains all of the files used for Milestone 3.
